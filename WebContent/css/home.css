@@ -40,6 +40,7 @@ a:hover {
 	float: right;
 	width: 300px;
 	height: 80px;
+	margin:0;
 }
 
 
@@ -49,7 +50,7 @@ header button{
 	/*background-color: #EAE7D6 !important;*/
 	background-color: white !important;
 	width: 120px;
-	margin-top:10px;
+	height: 52px;
 	/*border-right:1px solid #D8C3A5 !important;*/
 	
 	
@@ -72,12 +73,14 @@ header button:hover{
 	text-align: center;
 }
 
-form{
+
+
+/*form{
 	width: 100%;
 	margin:auto;
 	text-align: center;
 }
-
+*/
 h2{
 	font-size: 2em;
 	font-weight: normal;
@@ -100,16 +103,21 @@ h2{
 	box-shadow: 1px 1px 1px 1px lightgrey;
 }
 
+
 .search-field{
 	width: 100%;
 }
 .search-input{
 	width: 50% !important;
-	margin:auto !important; 
+	margin-left:15% !important;
+	margin-right: 0 !important;
+	float:left !important;
 }
-.my-sm-0{
-	margin-left: 0 !important;
+
+#search-nav .my-sm-0{
+	margin-left: 10px !important;
 	width:120px;
+	float:left !important;
 }
 
 #search-results{
@@ -119,6 +127,16 @@ h2{
 	width: 80%;
 }
 
+/* For Load Page Effects */
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(../img/loader-64x/Preloader_2.gif) center no-repeat #fff;
+}
 
 /* Results Block*/
 .result-blocks{
@@ -127,6 +145,10 @@ h2{
 	box-shadow: 1px 1px 1px 1px lightgrey;
 	float: left;
 	margin:20px;
+}
+
+#result-search-term{
+	text-decoration: underline;
 }
 
 .result-img{
