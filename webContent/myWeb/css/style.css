@@ -1,0 +1,233 @@
+body{
+	/*background-color: #EAE7D6;*/
+	color: #14A76C;
+	/*color: #E98074;
+	color: #F3D250;*/
+}
+
+/*Header and Nav Bar*/
+header{
+	width: 100%;
+	height: 52px;
+	/*background-color: ;*/
+	/*border-bottom: 1px solid #D8C3A5;*/
+}
+
+a{
+	color:black;
+	text-decoration: none;
+}
+
+
+header a{	
+	color: inherit; /* body colors for links too */
+	text-decoration: none; 
+	float: left;
+	height: 70px;
+}
+
+a:hover { 
+    color:inherit;
+	text-decoration: none;
+}
+
+#logo-font{
+	margin-left:20px;
+	margin-top: 5px;
+	font-size:2.4em;
+}
+
+#header-button-div{
+	float: right;
+	width: 150px; /* changes */
+	height: 80px;
+}
+
+
+header button{
+	font-size: 1.2em !important;
+	color: inherit!important;
+	/*background-color: #EAE7D6 !important;*/
+	background-color: white !important;
+	width: 120px;
+	margin-top:10px;
+	/*border-right:1px solid #D8C3A5 !important;*/
+	
+	
+	border-radius: 0 0 0 0 !important;
+}
+
+header button:hover{
+	background-color: #14A76C !important;
+	color: white !important;
+}
+
+/*Search Field*/
+#search-bar{
+	background-image: url("../img/img2.jpg");
+	background-position: center;
+	background-size: cover;
+	width: 100%;
+	height: 400px;
+	position: relative;
+	text-align: center;
+}
+
+form{
+	width: 100%;
+	margin:auto;
+	text-align: center;
+}
+
+h2{
+	font-size: 2em;
+	font-weight: normal;
+	text-align: center;
+	width: 100%;
+	padding: 0px;
+	margin-top: 0px;
+	margin-bottom: 40px;
+}
+
+#search-nav{ /*changed*/
+	background-color: white!important;
+	height: 40px;
+	width: 70%;
+	position: absolute;
+	margin-top: 20px; /* changed */
+	text-align: center;
+	margin-left: 15%;
+	border-radius: 3px 3px 3px 3px !important;
+	box-shadow: 1px 1px 1px 1px lightgrey;
+}
+
+.search-field{
+	width: 100%;
+}
+.search-input{
+	width: 50% !important;
+	margin:auto !important; 
+}
+.my-sm-0{
+	margin-left: 0 !important;
+	width:120px;
+}
+
+#search-results{
+	margin:auto;
+	width: 80%;
+}
+
+
+/* Results Block*/
+.result-blocks{
+	width: 300px;
+	box-shadow: 1px 1px 1px 1px lightgrey;
+	float: left;
+	margin:20px;
+}
+
+.result-img{
+	width: 100%;
+	height: 200px;
+	object-fit: cover;
+
+}
+.result-text{ /*changed*/
+	padding:10px;
+    background-color: darkgrey;
+    border-style:solid;
+}
+
+/* added this at the bottom */
+#sidebar-wrapper {
+    z-index: 1000;
+    margin-left: -14px;
+    max-width: 210px;
+    margin-top: -24px;
+    background: #000;
+    min-height: 100%;
+}
+
+
+/* Sidebar Styles */
+
+#myNavBar{
+    margin-top: -24px;
+    height: 43px;
+}
+
+#profileImage{
+    border-radius: 50%;
+    margin-top: 42px;
+    border: 2px solid #021a40;
+}
+
+#profileName{
+    background-color: gainsboro;
+	height: 40px;
+	width: 40%;
+	position: absolute;
+	margin-top: 30px; /* changed */
+	text-align: center;
+	margin-left: 29%;
+	border-radius: 15%;
+}
+
+.nav-item{
+    width: 453px;
+    text-align: center;
+}
+
+.links{
+    border: 2px solid red;
+    border-bottom: 0px;
+    border-top: 0px;
+}
+
+/*form */
+.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{
+    font-family: Arial, Helvetica, sans-serif;
+    color: black
+}
+
+.bootstrap-iso form button, .bootstrap-iso form button:hover{
+    color: white !important;
+} 
+.asteriskField{
+    color: red;
+}
+
+/*autocomplete*/
+
+input[type=submit] {
+  background-color: DodgerBlue;
+  color: #fff;
+  cursor: pointer;
+}
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9;
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
