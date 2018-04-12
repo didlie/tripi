@@ -1,0 +1,135 @@
+var geocoder;
+var map;
+var autocomplete;
+      
+// Initialize the map (called when the Google Maps API loads)
+function initMap() {
+	// Create the map, sets the default center to the middle of the world
+	map = new google.maps.Map(document.getElementById('map'), {
+    	 center: {lat: 0, lng: 0},
+      zoom: 2
+    });
+
+	// Get all the trip items on the page
+	var tripItems = document.getElementsByClassName('trip-item');
+	
+	// If we have trip items, create markers and center map on markers
+	if (tripItems.length > 0) {
+		var bounds = new google.maps.LatLngBounds();
+		
+		for(var i=0;i<tripItems.length;i++) {
+			var tripItem = tripItems[i];
+			var latitude = tripItem.dataset.latitude;
+			var longitude = tripItem.dataset.longitude;
+			
+			var newMarker = new google.maps.Marker({
+				position: { lat: parseFloat(latitude), lng: parseFloat(longitude) },
+				map: map
+			});
+			
+			bounds.extend(newMarker.getPosition());
+			
+			// While we're at it, process the date time
+			var time = tripItem.dataset.time;
+			var formattedTime = moment(time, "YYYY-MM-DD HH:MM:SS").format("MMM DD, YYYY hh:MM a");
+			// fix this 
+		}
+		
+		map.fitBounds(bounds);
+	}
+	
+	// Enable autocomplete
+	autocomplete = new google.maps.places.Autocomplete((document.getElementById('itemAddress')), {types: ['geocode', 'establishment']});
+}
+
+// Show the item modal when the add item button is clicked
+$("#addItemModalShow").click(function() {
+	$("#addItemModal").modal("show");
+});
+
+// Handle submit
+$("#addItemForm").submit(function(event) {
+	// Get the coordinates from the autocomplete box
+	var itemLat, itemLng;
+	
+	if (autocomplete.getPlace() !== undefined) {
+		itemLat = autocomplete.getPlace().geometry.location.lat();
+		itemLng = autocomplete.getPlace().geometry.location.lng();
+	} else {
+		$('.item-form-alert').html('Please pick a valid location');
+		$('.item-form-alert').fadeIn('fast');
+		event.preventDefault();
+		return;
+	}
+	
+	
+	// Set data in forms
+	$("#itemLatitude").val(itemLat);
+	$("#itemLongitude").val(itemLng);
+	
+	// Prevent from actually submitting form
+	event.preventDefault();
+	
+	// Send data to Servlet via AJAX and respond to whether or not we succesfully add info
+	$.ajax({
+		type: "POST",
+		url: $(this).attr('action'),
+		data: $("#addItemForm").serialize(),
+		success: function(data) {
+			if (data.trim() == 'SUCCESS') {
+				// Item succesfully posted
+				$('.item-form-alert').fadeOut('fast');
+				$('#addItemModal').modal("hide");
+				
+				// Add marker to map
+				var newMarker = new google.maps.Marker({
+					position: { lat: itemLat, lng: itemLng },
+					map: map
+				});
+				
+//				var time = $("#itemTime").val();
+//				var type = $("#itemType").val();
+//				var title = $("#itemTitle").val();
+//				var address = $("#itemAddress").val();
+//				var description = $("#itemDescription").val();
+//				
+//				var icon = "";
+//				
+//				if (type === "hotel") {
+//	          		  icon = "<i class='fas fa-h-square icon'></i> ";
+//	          	  } else if (type === "place") {
+//	          		  icon = "<i class='fas fa-map-pin icon'></i> ";
+//	          	  } else {
+//	          		  icon = "<i class='fas fa-calendar icon'></i> ";
+//	          	  }
+//				
+//				
+//				// Add item to timeline
+//				var $newItem = $(`
+//				<div class="card trip-item" data-longitude="${itemLng}" data-latitude="{itemLat}" data-time="${time}">
+//	              <div class="card-body item-${type}">
+//	                <h5 class="card-title">${icon}${title}</h5>
+//	                <h6 class="card-subtitle address">${address}</h6>
+//	                <p class="card-text">${description}</p>
+//	                
+//	                <hr> 
+//	                
+//	                <h6 class="card-subtitle time"></h6>
+//	              </div>
+//				`);
+			} else {
+				// Show error message
+				$('.item-form-alert').html(data.trim());
+				$('.item-form-alert').fadeIn('fast');
+			}
+		}
+	});
+	
+	return;
+});
+
+// Support date time input
+$(function(){
+    $('#itemTime').combodate(); 
+    $('.item-form-alert').hide();
+});
