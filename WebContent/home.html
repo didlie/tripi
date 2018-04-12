@@ -8,7 +8,29 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	
-	<body>
+	<script>
+		var socket;
+		function connectToServer() {
+			socket = new WebSocket("ws://localhost:8080/WebSockets/ws"); 
+		
+			socket.onmessage = function(event) {
+				let message = JSON.parse(event.data); // assume event.data = {"message": "login", "user": "natalie"}
+
+				if(message.message == "newI"){
+					//also if public?
+					var htmlString = "<div class = 'result-blocks'><a href = ''><img class = 'result-img' src = '" + message.img;
+					htmlString += "'> <div class = 'result-text'><h3>" + message.title + "</h3> Trip Details..." + message.details + "</div></a></div>";
+					document.getElementById("newI").innerHTML += htmlString;
+				}
+			}
+		function sendMessage() { //for when you make a newI
+			event.data = {"message": "newI", "title": document.getElementById("title").value, "img": document.getElementByID("img").value, "details": document.getElementById("details").value};
+			socket.send(event.data);
+			return false; //because on submit, if true, will go to same page and reload the connectToServer, so return false so it doesnt submit
+		} 
+	</script>
+	
+	<body onload = "connectToServer()">
 		<header>
 			
 			<a href="home.html"><h1 id="logo-font"> TRIPI </h1></a>
@@ -53,6 +75,7 @@
 			</div>
 			<div id="results">
 				<div class="result-blocks">
+					<div id = "newI"></div>
 					<a href="#">
 						<img  class="result-img" src="img/img1.jpg">
 						<div class="result-text">
