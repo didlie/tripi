@@ -19,7 +19,7 @@
 			request.setAttribute("password_error", "The password field should not be empty!");
 			flag = -1;
 		}
-		if(!JDBCDriver.validate(email, password)){
+		if(email.length()!=0 && password.length()!=0 && !JDBCDriver.validate(email, password)){
 			request.setAttribute("info_error", "The input info does not match!");
 			flag = -1;
 		}
@@ -33,7 +33,7 @@
 			request.getSession().setAttribute("password", password);
 			request.getSession().setAttribute("User_ID", User_ID);
 			
-			response.sendRedirect("home.jsp"); //need to add name of homepage after login
+			response.sendRedirect("home.jsp");
 		}
 		if(flag == -1){
 			response.sendRedirect("login.jsp");
