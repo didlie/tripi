@@ -1,0 +1,314 @@
+<!doctype html>
+
+<html>
+	<head>
+		<title>Tripi - Trip</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" href="./css/itinerary.css">
+        <script src="js/searchEvent.js"></script>
+	</head>
+    <style >
+        h6, p, a, img{
+            max-width: 850px;
+        }
+        body{
+            background-color: #f4c57a
+        }
+    </style>
+
+	<body >
+        
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Tripi</a>
+      <div class="search-field" style="margin-left: 40px;">
+          <form onsubmit="return search();" action="#">
+              <div class="form-row">
+                <div class="col-4">
+                  <input id="q" type="text" class="form-control" placeholder="Search Events/Accomodations">
+                </div>
+                <div class="col-2">
+                  <input id="location" type="text" class="form-control" placeholder="Location">
+                </div>
+                <div class="col-3">
+                  <input id="date" type="text" class="form-control" name="date" placeholder="YYYY-MM-DD" value="">
+                </div>
+              <div class="col-2">
+                  <select id="choice" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                    <option value="1" selected>Events</option>
+                    <option value="2">Accomodation</option>
+                  </select>
+                </div>
+                <div class="col-1 ">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            </form>
+            <text id="error" style="color: red;"></text>
+      </div>
+    </nav>
+
+    <!-- results -->
+       <div id="result" class="container-fluid">
+            <!-- results will be here-->
+        </div>
+        
+    <!-- scripts-->
+        
+        <script type="text/javascript">
+        
+        var example = "https://www.eventbriteapi.com/v3/events/search/?token=LDXPFOKRVV2JPEXJFHTA&q=biking&location.address=LosAngeles&start_date.range_start=2018-04-21T00:00:00";
+        
+        var EventHttp = "https://www.eventbriteapi.com/v3/";
+        
+        var example2 = "https://api.foursquare.com/v2/venues/search?near=%22Los+Angeles,+LA%22&intent=browse&query=hotel&client_id=WKF0WE5GR5TB2YYVFJ0RO5NPQLQ2S1GGFPORNDRJP1EDNM5X&client_secret=Q2BX2P2OUCUIDQHQ0IJZYVW0A4GETAORSRPVLNZ5S43G00YY&v=20180410";
+        
+        var photo;
+        var link;
+        
+        function search(){
+            
+            alert("insearch");
+            
+            var q = document.getElementById('q').value;
+            var location = document.getElementById('location').value;
+            var date = document.getElementById('date').value;
+            var choice = document.getElementById('choice').value;
+            var er = document.getElementById('error');
+            
+            var dateInput = date.split("/");
+            date = dateInput[2] + "-" + dateInput[0] + "-" + dateInput[1];
+            
+            
+            
+            if(choice === "1"){
+                if(!q){
+                    er.innerHTML = "<strong>Search value cannot be empty!</strong>";
+                    return false;
+                }
+                var arg = "https://www.eventbriteapi.com/v3/events/search/?token=LDXPFOKRVV2JPEXJFHTA&q=" + q;
+                if(location){
+                    arg += "&location.address=" + location;
+                }
+                if(date){
+                    arg += "&start_date.range_start=" + date + "T00:00:00";
+                }
+                er.innerHTML = "";
+                arg = encodeURI(arg);
+                Event(arg);
+            }
+            else{
+                if(!location){
+                    er.innerHTML = "<strong>Location cannot be empty!</strong>";
+                    return false;
+                }
+                var arg = "https://api.foursquare.com/v2/venues/search?near=" + location + "&intent=browse"; 
+                if(!q){
+                    arg += "&query=hotel";
+                }
+                else{
+                    arg += "&query=" + q;
+                }
+                er.innerHTML = "";
+                accomodation( arg + "&client_id=WKF0WE5GR5TB2YYVFJ0RO5NPQLQ2S1GGFPORNDRJP1EDNM5X&client_secret=Q2BX2P2OUCUIDQHQ0IJZYVW0A4GETAORSRPVLNZ5S43G00YY&v=20180410");
+            }
+            
+            return false;
+        }
+                      
+        function Event(line){ //eventbrite
+                        
+            var xhttp = new XMLHttpRequest();
+              
+            xhttp.onreadystatechange = function(){
+                if(this.readyState == 4 && this.status == 200){
+                    var result = document.getElementById('result');
+                    var obj = JSON.parse(this.responseText);
+                    
+                    result.innerHTML = "";
+                    
+                    
+                    var list;
+                    if(obj.events && obj.events !== null && obj.events.length > 0){
+                        alert(obj.events);
+                        list = obj.events;
+                    }
+                    else{
+                        list = obj.top_match_events;
+                    }
+                    
+                    for(var i = 0; i < Math.min(15, list.length); i++){
+                        
+                        //alert("this is name: " + list[i].name.text);
+                        var desc = "";
+                        if(list[i].description.html === null){
+                            desc = "No description provided"; 
+                        }
+                        else{
+                            desc = list[i].description.html;
+                        }
+                        
+                        var startDate = list[i].start.local.split("T")[0];
+                        var startTime = list[i].start.local.split("T")[1].slice(0, 5);
+                        
+                        var img, urls;
+                        if(list[i].logo !== null){
+                            img = list[i].logo.original.url;
+                        }else {img = "no img";}
+                        if(list[i].url !== null){
+                            urls = list[i].url;
+                        }else {urls = "no url";}
+                        
+                        result.innerHTML += "<div class=\"card mb-3\" style=\"max-width: fill; margin-left: 100px; margin-right: 100px; margin-top: 50px;\">"
+                            + "<div class=\"card-header bg-transparent text-success\">"
+                            + list[i].name.text + "</div>\n"
+                            + "\n<div class=\"card-body \">\n"
+                            + "<div>\n<img src=\"" 
+                            + img + "\" width=\"300\" heigth=\"300\">" 
+                            + "\n<div>\n<text>"
+                            + "\n<h6>Description:</h6>\n" + desc 
+                            + "\n<h6>website:</h6>\n<a href=\"" + urls + "\">" 
+                            + urls + "</a>\n<h6>Start Date/Time(local):</h6>\n<h6>\n" 
+                            + startDate + " at " + startTime + "</h6>\n</text>\n</div>\n</div>\n</div>"
+                            + "<div class=\"card-footer bg-transparent border-success\">" + "\n<form method=\"POST\" action=\"#\">"
+                            + "<input class=\"btn btn-primary\" type=\"button\" value=\"Add to your Itinerary\">"
+                            + "\n</form>\n</div>\n</div>";
+                                    
+                            
+                    }
+                    
+                }
+            };
+            
+            
+            xhttp.open("GET", line, true);
+            xhttp.send();
+            
+            return false;
+        }
+        
+        
+        function getPhoto(id){
+            
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+                if(this.readyState == 4 && this.status == 200){
+                    var obj = JSON.parse(this.responseText);
+                    photo = obj.response.photos.items[0].prefix + "200x200" +
+                        obj.response.photos.items[0].suffix;
+                }
+            }
+            xhttp.open("GET","https://api.foursquare.com/v2/venues/"
+                       + id + "/photos?client_id=WKF0WE5GR5TB2YYVFJ0RO5NPQLQ2S1GGFPORNDRJP1EDNM5X&client_secret=Q2BX2P2OUCUIDQHQ0IJZYVW0A4GETAORSRPVLNZ5S43G00YY&v=20180410" , false);
+            xhttp.send();
+             
+            
+        }
+        
+        function getLinks(id){
+            
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+                if(this.readyState == 4 && this.status == 200){
+                    var obj = JSON.parse(this.responseText);
+                    link = obj.response.links.items[0].url;
+                    if(!link){
+                        link = "no links provided";
+                    }
+                }
+            }
+            xhttp.open("GET", "https://api.foursquare.com/v2/venues/" +
+                       id + "/links?client_id=WKF0WE5GR5TB2YYVFJ0RO5NPQLQ2S1GGFPORNDRJP1EDNM5X&client_secret=Q2BX2P2OUCUIDQHQ0IJZYVW0A4GETAORSRPVLNZ5S43G00YY&v=20180410", false);
+            xhttp.send();
+            
+        }
+        
+        function accomodation(line){//foursquare
+            
+            alert("hello1");
+            
+            var near = "";
+            
+            var url = line;
+                 
+            var xhttp = new XMLHttpRequest();
+        
+            
+            xhttp.onreadystatechange = function(){
+                if(this.readyState == 4 && this.status == 200){
+                    var result = document.getElementById('result');
+                    var obj = JSON.parse(this.responseText);
+                    obj = obj.response.venues;
+                    
+                    result.innerHTML = "";
+                    
+                    
+                    for(var i = 0; i < Math.min(15, obj.length); i++){
+                        
+                        getPhoto(obj[i].id);
+                        getLinks(obj[i].id);
+                        result.innerHTML += "<div class=\"card mb-3\" style=\"max-width: fill; margin-left: 100px; margin-right: 100px; margin-top: 50px;\">"
+                            + "<div class=\"card-header bg-transparent text-success\">"
+                            + obj[i].name + "</div>\n"
+                            + "\n<div class=\"card-body \">\n"
+                            + "<div>\n<img src=\"" 
+                            + photo + "\">" 
+                            + "\n<div>\n<text>"
+                            + "\n<h6>Location:</h6>\n<p>" + obj[i].location.formattedAddress[0] + "</p>\n"
+                            + "<p>" + obj[i].location.formattedAddress[1] + "</p>\n"
+                            + "\n<h6>Book here:</h6>\n<a href=\"" + link + "\">" + link
+                            + "\n</text>\n</div>\n</div>"
+                            + "<div class=\"card-footer bg-transparent border-success\">" + "\n<form method=\"POST\" action=\"#\">"
+                            + "<input class=\"btn btn-primary\" type=\"button\" value=\"Add to your Itinerary\">"
+                            + "\n</form>\n</div>\n</div>";  
+                            
+                    }
+                    
+                }
+            };
+            
+            
+            xhttp.open("GET", url, false);
+            xhttp.send();      
+         
+        }
+            
+
+        // for autocomplete places
+			var autocomplete;
+
+            function initAutocomplete() {
+		        // Create the autocomplete object, restricting the search to geographical
+		        // location types.
+		        autocomplete = new google.maps.places.Autocomplete(
+		            /** @type {!HTMLInputElement} */(document.getElementById('location')),
+		            {types: ['geocode']});
+		    }
+
+            
+    </script>
+        
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEOE3jhPysVbJtjukU7Tc3Lkc-Q4fdSEk&libraries=places&callback=initAutocomplete"
+        async defer></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+		<script src="vendor/jquery/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        
+        <!--for autocomplete date-->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+        <script>
+            
+	$(document).ready(function(){
+		var date_input=$('input[name="date"]'); //our date input has the name "date"
+		var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+		date_input.datepicker({
+			format: 'mm/dd/yyyy',
+			container: container,
+			todayHighlight: true,
+			autoclose: true,
+		})
+	})
+    
+    </script>
+	</body>
+</html>
