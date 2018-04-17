@@ -113,7 +113,7 @@
       
       <div class="container" id="createPage" style="display: none;">
       
-       <form name="createForm" onsubmit="return validateCreate();" action="#">
+       <form name="createForm" onsubmit="return validateCreate();" action="./new">
            <br>
           <div class="form-group">
             <span class="asteriskField">

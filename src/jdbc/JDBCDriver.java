@@ -7,7 +7,7 @@ public class JDBCDriver {
 	private static Connection conn = null;
 	private static ResultSet rs = null;
 	private static PreparedStatement ps = null;
-	private static String password = "WangXueYuan123";
+	private static String password = "root";
 	
 	public static void connect(){
 		try {
