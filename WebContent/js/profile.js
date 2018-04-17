@@ -52,8 +52,6 @@
             return false;
         }
         
-        
-        return true;
     }
 
     function validateUpdate(){

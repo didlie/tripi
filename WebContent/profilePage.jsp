@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import = "java.util.ArrayList" %>
+    pageEncoding="UTF-8" import = "java.util.ArrayList" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -25,6 +25,120 @@
       
 
   </head>
+
+	<script>
+
+		    /* to change page without refreshing*/
+		    function tripPage(){
+		    document.getElementById('tripLink').classList.add('active');
+		    document.getElementById('updateLink').classList.remove('active');
+		    document.getElementById('createLink').classList.remove('active');
+		    document.getElementById('updatePage').style.display = "none";
+		    document.getElementById('createPage').style.display = "none";
+		    document.getElementById('tripsPage').style.display = "block";
+		  } 
+		  function CreateTrip(){
+		    document.getElementById('tripLink').classList.remove('active');
+		    document.getElementById('updateLink').classList.remove('active');
+		    document.getElementById('createLink').classList.add('active');
+		    document.getElementById('tripsPage').style.display = "none";
+		    document.getElementById('updatePage').style.display = "none";
+		    document.getElementById('createPage').style.display = "block";
+		  }      
+		function update(){
+		    document.getElementById('tripLink').classList.remove('active');
+		    document.getElementById('updateLink').classList.add('active');
+		    document.getElementById('createLink').classList.remove('active');
+		    document.getElementById('tripsPage').style.display = "none";
+		    document.getElementById('createPage').style.display = "none";
+		    document.getElementById('updatePage').style.display = "block";
+		  }
+		    
+		function validateCreate(){
+		    var name = document.getElementById('nameInput');
+		    var link = document.getElementById('linkInput');
+		    var place = document.getElementById('placeInput');
+		    var description = document.getElementById('descriptionInput');
+		    var cityError = document.getElementById('cityError');
+		    var dateError = document.getElementById('dateError');
+		    var countryError = document.getElementById('countryError');
+		    var cityEr = false;
+		    var dateEr = false;
+		    var countryEr = false;
+		    
+		    if(city.value === null || city.value.length <= 0){
+		        cityError.innerHTML = "<strong>Please Enter City</strong>";
+		        cityEr = true;
+		    }
+		    if(date.value === null || date.value.length <= 0){
+		        dateError.innerHTML = "<strong>Please Enter Date!</strong>";
+		        dateEr = true;
+		    }
+		    if(country.value === null || country.value.length <= 0){
+		        countryError.innerHTML = "<strong>Please Enter Country!</strong>";
+		        countryEr = true;
+		    }
+		    if(cityEr || dateEr || countryEr){
+		        return false;
+		    }
+		    
+		    //ajax call to get id
+		    sendMessage(id, name, place, link, description);
+		}
+		
+		function validateUpdate(){
+		    var name = document.getElementById('nameInput');
+		    var image = document.getElementById('imageUrl');
+		    var password = document.getElementById('password');
+		    var passwordError = document.getElementById('passwordError');
+		    var passwordEr = false;
+		    
+		    if(name.value.length <= 0 && image.value.length <= 0 && password.value.length <= 0){
+		        passwordError.innerHTML = "<strong>Please Enter Update</strong>";
+		        passwordEr = true;
+		    }
+		    
+		    if(passwordEr === true){
+		        return false;
+		    }
+		    
+		    return true;
+		}
+		
+		
+		    
+		    /*for autocomplete date*/
+		$(document).ready(function(){
+			var date_input=$('input[name="date"]'); //our date input has the name "date"
+			var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+			date_input.datepicker({
+				format: 'mm/dd/yyyy',
+				container: container,
+				todayHighlight: true,
+				autoclose: true,
+			})
+		})
+
+	
+		var socket;
+		function connectToServer() {
+			socket = new WebSocket("ws://localhost:8080/WebSockets/ws"); 
+		
+			socket.onmessage = function(event) {
+				let message = JSON.parse(event.data); // assume event.data = {"message": "login", "user": "natalie"}
+
+				if(message.message == "newI"){
+					var htmlString = "<div class = 'result-blocks'><a href = 'view?id=" + message.id + "'><img class = 'result-img' src = '" + message.img;
+					htmlString += "'> <div class = 'result-text'><h3>" + message.title + "</h3>" + message.details + "</div></a></div>";
+					document.getElementById("results").innerHTML += htmlString;
+				}
+			}
+		function sendMessage(var id, var name, var place, var link, var description) { //for when you make a newI
+			event.data = {"message": "newI", "id": id, "place": place, "title": name, "img": link, "details": description};
+			socket.send(event.data);
+			return false; //because on submit, if true, will go to same page and reload the connectToServer, so return false so it doesnt submit
+		} 
+	</script>
 
   <body>
 
@@ -119,9 +233,9 @@
             <span class="asteriskField">
             *
            </span>
-            Enter Country:<br><br>
+            Enter Place:<br><br>
             <div  class="autocomplete">
-                <input style="margin-left: 180px; width: 70%;" type="type" class="form-control" id="countryInput" name="country" placeholder="Enter country"/>
+                <input style="margin-left: 180px; width: 70%;" type="type" class="form-control" id="placeInput" name="country" placeholder="Enter place"/>
             </div>
           </div>
            <br>
@@ -130,8 +244,8 @@
             <span class="asteriskField">
             *
            </span>
-            Enter City:<br><br>
-            <input style="margin-left: 180px; width: 70%;" type="type" class="form-control" id="cityInput" name="city" placeholder="Enter city"/>
+            Enter Name of Trip:<br><br>
+            <input style="margin-left: 180px; width: 70%;" type="type" class="form-control" id="nameInput" name="city" placeholder="Enter name"/>
            <br>
             <div id="cityError" style="color: red;"></div>
            <br>
@@ -140,15 +254,22 @@
             <span class="asteriskField">
             *
            </span>
-           Enter Date:
+           Enter photo link:
           </label>
             <br><br>
-            <input style="margin-left: 180px; width: 70%;" class="form-control" id="dateInput" name="date" placeholder="MM/DD/YYYY" type="type"/>
+            <input style="margin-left: 180px; width: 70%;" class="form-control" id="linkInput" name="date" placeholder="link" type="type"/>
            </div>
 
            <br>
             <div id="dateError" style="color: red;"></div>
            <br>
+         <div class="form-group ">
+          <label class="control-label">
+           Write description:
+          </label>
+            <br><br>
+            <input style="margin-left: 180px; width: 70%;" class="form-control" id="descriptionInput" name="date" placeholder="description" type="type"/>
+           </div>
          <div class="form-group">
            <button class="btn btn-primary " name="submit" type="submit">
             Create

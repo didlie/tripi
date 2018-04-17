@@ -10,6 +10,27 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	
+	<script>
+	var socket;
+	function connectToServer() {
+		socket = new WebSocket("ws://localhost:8080/WebSockets/ws"); 
+	
+		socket.onmessage = function(event) {
+			let message = JSON.parse(event.data); // assume event.data = {"message": "login", "user": "natalie"}
+
+			if(message.message == "newI"){
+				var htmlString = "<div class = 'result-blocks'><a href = 'view?id=" + message.id + "'><img class = 'result-img' src = '" + message.img;
+				htmlString += "'> <div class = 'result-text'><h3>" + message.title + "</h3>" + message.details + "</div></a></div>";
+				document.getElementById("results").innerHTML += htmlString;
+			}
+		}
+	function sendMessage(var id, var name, var place, var link, var description) { //for when you make a newI
+		event.data = {"message": "newI", "id": id, "place": place, "title": name, "img": link, "details": description};
+		socket.send(event.data);
+		return false; //because on submit, if true, will go to same page and reload the connectToServer, so return false so it doesnt submit
+	} 
+	</script>
+	
 	<body>
 		<header>
 			
