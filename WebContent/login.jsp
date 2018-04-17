@@ -19,7 +19,7 @@
 
   <body class="text-center" style = "background-image: url('background.jpg'); background-size: cover;">
     <form class="form-signin" method = "POST" action = "authenticate_login.jsp">
-      <a href = "homepage"><img class="mb-4" src="logoorange.png" alt="" width="auto" height="300"></a>
+      <a href = "home.jsp"><img class="mb-4" src="logoorange.png" alt="" width="auto" height="300"></a>
       <div style = "margin-top: -60px;">
 	      <h1 class="h3 mb-3 font-weight-normal" style = "color: #f9880e;">Please sign in</h1>
 	      <label for="inputEmail" class="sr-only">Email address</label>
