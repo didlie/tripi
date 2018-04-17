@@ -16,10 +16,10 @@
 			<a href="home.jsp"><h1 id="logo-font"> TRIPI </h1></a>
 			
 			<div id="header-button-div">
-				<a href="login.html">
+				<a href="login.jsp">
 					<button type="button" class="btn btn-light">Log In</button>
 				</a>
-				<a href="signup.html">
+				<a href="signup.jsp">
 					<button type="button" class="btn btn-light">Sign Up</button>
 				</a>
 			</div>
@@ -49,7 +49,7 @@
 		<div id="search-results">
 			<div class="search-place">
 				<h2><span style="color: black;"> Trips for you in </span>
-					<span id="result-search-term">Los Angeles</span></h2>
+					<span id="result-search-term">...</span></h2>
 			</div>
 			
 			
@@ -61,7 +61,7 @@
 						<div class="result-text">
 							<h3>Trip Title</h3>
 							Trip Details... 
-							I enjoyed a cruise in the Norwegian fjords, had a dinner 327 meters underground at Wieliczka salt mine in Krakow, felt sad at the Auschwitz concentration camps in Poland, waited for a delayed train in snowy 
+							
 						</div>
 					</a>
 				</div>
@@ -130,7 +130,7 @@
 					var title = "<%=stat.get(i).get(2)%>";
 					var description = "<%=stat.get(i).get(3)%>";
 					content += '<div class="result-blocks">';
-					content += '<a href="itinerary.jsp?id='+ id +'">';
+					content += '<a href="view?id='+ id +'">';
 					content += '<img  class="result-img" src="'+ img_link +'">';
 					content += '<div class="result-text">';
 					content += '<h3>'+ title +'</h3>';
@@ -147,6 +147,57 @@
 					document.getElementById('results').innerHTML = "No Results Found!";
 				}
 			<%}%>// End if place not null
+			
+			
+			// Load the page, display all places
+			function DisplayAllPlaces(){
+				<%
+				System.out.println("Displaying all places..." );
+				ArrayList<ArrayList<String>> stat = JDBCDriver.getAllTrips();
+				System.out.println("size: " + stat.size());
+				request.setAttribute("list", stat);	
+				
+				// Display the stats
+				int result_size = stat.size();
+				if(result_size > 12){
+					result_size = 12;
+				} %>
+				
+				var content = "";
+				
+				<%for(int i = 0; i < result_size; i++){ %>
+					var id = "<%=stat.get(i).get(0)%>";
+					var img_link = "<%=stat.get(i).get(1)%>";
+					var title = "<%=stat.get(i).get(2)%>";
+					var description = "<%=stat.get(i).get(3)%>";
+					content += '<div class="result-blocks">';
+					content += '<a href="view?id='+ id +'">';
+					content += '<img  class="result-img" src="'+ img_link +'">';
+					content += '<div class="result-text">';
+					content += '<h3>'+ title +'</h3>';
+					content += description;
+					content += '</a>';
+					content += '</div>';
+					content += '</div>';
+				<%}%>
+				
+				content += '<br style="clear: both;">';
+				if(content != ""){
+					document.getElementById('results').innerHTML = content;
+				}else{
+					document.getElementById('results').innerHTML = "No Results Found!";
+				}
+			
+			
+			}// End DisplayAllPlaces function
+			
+			<%
+			if(request.getParameter("place") == null){%>
+				console.log("No places");
+				window.onload = DisplayAllPlaces();
+				document.querySelector('#result-search-term').innerHTML = "WorldWide";
+			<%}%>
+			 
 		
 		</script>
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEOE3jhPysVbJtjukU7Tc3Lkc-Q4fdSEk&libraries=places&callback=initAutocomplete"
