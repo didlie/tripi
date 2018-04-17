@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"  import = "jdbc.*, java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -11,7 +11,7 @@
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		int flag = 0;
-		if(email.length() == 0){
+		if(email.length() == 0){ 
 			request.setAttribute("email_error", "The email field should not be empty!");
 			flag = -1;
 		}
