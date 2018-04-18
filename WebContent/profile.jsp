@@ -55,35 +55,9 @@
 		  }
 		    
 		function validateCreate(){
-		    var name = document.getElementById('nameInput');
-		    var link = document.getElementById('linkInput');
-		    var place = document.getElementById('placeInput');
-		    var description = document.getElementById('descriptionInput');
-		    var cityError = document.getElementById('cityError');
-		    var dateError = document.getElementById('dateError');
-		    var countryError = document.getElementById('countryError');
-		    var cityEr = false;
-		    var dateEr = false;
-		    var countryEr = false;
-		    
-		    if(city.value === null || city.value.length <= 0){
-		        cityError.innerHTML = "<strong>Please Enter City</strong>";
-		        cityEr = true;
-		    }
-		    if(date.value === null || date.value.length <= 0){
-		        dateError.innerHTML = "<strong>Please Enter Date!</strong>";
-		        dateEr = true;
-		    }
-		    if(country.value === null || country.value.length <= 0){
-		        countryError.innerHTML = "<strong>Please Enter Country!</strong>";
-		        countryEr = true;
-		    }
-		    if(cityEr || dateEr || countryEr){
-		        return false;
-		    }
-		    
-		    //ajax call to get id
-		    sendMessage(id, name, place, link, description);
+			shortenPlace();
+		    sendMessage(name, place, link, description);
+		    return true;
 		}
 		
 		function validateUpdate(){
@@ -133,10 +107,22 @@
 					document.getElementById("results").innerHTML += htmlString;
 				}
 			}
-		function sendMessage(id, name, place, link, description) { //for when you make a newI
+		function sendMessage(var name, var place, var link, var description) { //for when you make a newI
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("GET", "create?coverPhotoLink=" + link + "&description=" + description + "&title=" + name + "&mainPlace=" + place, false)
+			xhttp.send();
+			var id = 0;
+			if(xhttp.responseText.trim().length > 0) { 
+				id = xhttp.responseText;
+				return false; //dont submit form
+			} 
+			else {
+				console.log("no id received");
+			}
+			return true;
 			event.data = {"message": "newI", "id": id, "place": place, "title": name, "img": link, "details": description};
 			socket.send(event.data);
-			return false; //because on submit, if true, will go to same page and reload the connectToServer, so return false so it doesnt submit
+			return false; 
 		} 
 	</script>
 
