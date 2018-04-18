@@ -40,7 +40,7 @@ public class AddItem extends HttpServlet {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/Tripi?user=root&password=root&useSSL=false");
 			st = conn.createStatement();
 			ps = conn.prepareStatement("INSERT INTO "
-					+ "Item (trip_id, title, description, latitude, longtitude, address, time, type, link) "
+					+ "Item (trip_id, title, description, latitude, longitude, address, time, type, link) "
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
 			
 			ps.setString(1, tripId);

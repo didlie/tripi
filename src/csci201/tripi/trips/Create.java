@@ -1,6 +1,8 @@
 package csci201.tripi.trips;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +27,8 @@ public class Create extends HttpServlet {
 		
 		int tripId = JDBCDriver.createTrip(userId, coverPhotoLink, description, title, mainPlace, true);
 		
-		response.sendRedirect("./edit?id=" + tripId);
+		PrintWriter out = response.getWriter();
+		out.println(tripId);
+		out.close();
 	}
 }
