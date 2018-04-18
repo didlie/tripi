@@ -1,3 +1,4 @@
+package csci201.tripi.users;
 
 
 import java.io.IOException;
@@ -19,21 +20,25 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class toProfilePage
  */
 @WebServlet("/profile")
-public class toProfilePage extends HttpServlet {
+public class Profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (request.getSession().getAttribute("user_id") == null) {
+			response.sendRedirect("./home.jsp");
+			return;
+		}
 		
-		//need to get the user ID
-		//int userId = Integer.parseInt(request.getParameter("user_id"));
-		//String displayName = request.getParameter("displayName");
-		
-		String displayName = "Darkdra";
-		int userId = 1;
-		
+		String userId = (String) request.getSession().getAttribute("user_id");
+		// String password = (String) request.getSession().getAttribute("password");
+		// String username = (String) request.getSession().getAttribute("username");
+		String displayName = (String) request.getSession().getAttribute("displayname");
+		// String email = (String) request.getSession().getAttribute("email");
+		String profilePic = (String) request.getSession().getAttribute("profile_pic");
+
 		//to get trips, profile image, username trips
 		 Connection conn = null;
 		 Statement st = null;
@@ -43,15 +48,8 @@ public class toProfilePage extends HttpServlet {
 		 conn = DriverManager.getConnection("jdbc:mysql://localhost/tripi?user=root&password=root&useSSL=false");
 		 st = conn.createStatement();
 		 
-		 rs = st.executeQuery("SELECT * FROM Users s, Trip p Where s.User_ID=" + userId + ";");
-		 
-		 
-		 //get profile image
-		 if(rs.next()) {
-			 String profileImage = rs.getString("profile_s");
-		 }
-		
-		 
+		 rs = st.executeQuery("SELECT * FROM Trip t Where t.user_id=" + userId + ";");
+
 		 ArrayList<String> photoLinks = new ArrayList<String>();
 		 ArrayList<String> descriptions = new ArrayList<String>();
 		 ArrayList<String> titles = new ArrayList<String>();
@@ -61,9 +59,7 @@ public class toProfilePage extends HttpServlet {
 			 String desc = rs.getString("description");
 			 String title = rs.getString("title");
 			 String place = rs.getString("main_place");
-			 //check
-			 //System.out.println("it: " + link + " " + desc + " " + title + " " + place);
-			 //
+
 			 photoLinks.add(link);
 			 descriptions.add(desc);
 			 titles.add(title);
@@ -75,7 +71,7 @@ public class toProfilePage extends HttpServlet {
 		 request.setAttribute("titles", titles);
 		 request.setAttribute("mainPlaces", mainPlaces);
 		 //profile
-		 //request.setAttribute("profileImage", profileImage);
+		 request.setAttribute("profileImage", profilePic);
 		 request.setAttribute("displayName", displayName);
 		 } catch (SQLException sqle) {
 			  System.out.println ("sqle: " + sqle.getMessage());
@@ -92,12 +88,8 @@ public class toProfilePage extends HttpServlet {
 		}
 		 
 		 //change this if necessary
-		  String nextPage = "/profilePage.jsp";
-		  RequestDispatcher dispatcher =
-		  getServletContext().getRequestDispatcher(nextPage);
+		  RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profile.jsp");
 		  dispatcher.forward(request,response);
-		
-		
 	}
 
 }

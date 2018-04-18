@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import = "jdbc.*, java.util.ArrayList"%>
+    pageEncoding="UTF-8" import = "csci201.tripi.database.JDBCDriver, java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="css/home.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	</head>
+	</head> 
 	
 	<script>
 	var socket;
@@ -24,29 +24,31 @@
 				document.getElementById("results").innerHTML += htmlString;
 			}
 		}
-	function sendMessage(var id, var name, var place, var link, var description) { //for when you make a newI
-		event.data = {"message": "newI", "id": id, "place": place, "title": name, "img": link, "details": description};
-		socket.send(event.data);
-		return false; //because on submit, if true, will go to same page and reload the connectToServer, so return false so it doesnt submit
-	} 
+
+		function sendMessage(id, name, place, link, description) { //for when you make a newI
+			event.data = {"message": "newI", "id": id, "place": place, "title": name, "img": link, "details": description};
+			socket.send(event.data);
+			return false; //because on submit, if true, will go to same page and reload the connectToServer, so return false so it doesnt submit
+		} 
 	</script>
 	
 	<body>
-		<header>
-			
-			<a href="home.jsp"><h1 id="logo-font"> TRIPI </h1></a>
-			
-			<div id="header-button-div">
-				<a href="login.jsp">
-					<button type="button" class="btn btn-light">Log In</button>
-				</a>
-				<a href="signup.jsp">
-					<button type="button" class="btn btn-light">Sign Up</button>
-				</a>
-			</div>
-
-
-		</header>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		  <div class="container">
+        <a class="navbar-brand" href="./home.jsp">Tripi</a>
+        
+        <ul class="navbar-nav ml-auto">
+          <%
+          if (request.getSession().getAttribute("user_id") == null) {
+        	  %>
+        	     <li class="nav-item"><a class="nav-link" href="./login">Log In</a></li>
+              <li class="nav-item"><a class="nav-link" href="./signup">Sign Up</a></li>
+        	  <% } else {  %>
+              <li class="nav-item"><a class="nav-link" href="./profile">Hello <%= request.getSession().getAttribute("displayname") %></a></li>
+          <% } %>
+        </ul>
+		  </div>
+    </nav>
 
 		<div id="search-bar">
 
@@ -216,7 +218,7 @@
 			if(request.getParameter("place") == null){%>
 				console.log("No places");
 				window.onload = DisplayAllPlaces();
-				document.querySelector('#result-search-term').innerHTML = "WorldWide";
+				document.querySelector('#result-search-term').innerHTML = "Worldwide";
 			<%}%>
 			 
 		

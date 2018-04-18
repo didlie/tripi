@@ -133,7 +133,7 @@
 					document.getElementById("results").innerHTML += htmlString;
 				}
 			}
-		function sendMessage(var id, var name, var place, var link, var description) { //for when you make a newI
+		function sendMessage(id, name, place, link, description) { //for when you make a newI
 			event.data = {"message": "newI", "id": id, "place": place, "title": name, "img": link, "details": description};
 			socket.send(event.data);
 			return false; //because on submit, if true, will go to same page and reload the connectToServer, so return false so it doesnt submit
@@ -143,23 +143,20 @@
   <body>
 
     <!-- header -->
-		<header>
-			
-			<a href="home.html"><h1 id="logo-font"> TRIPI </h1></a>
-			
-			<div id="header-button-div">
-				<a href="login.html">
-					<button type="button" class="btn btn-light">Log Out</button>
-				</a>
-			</div>
-
-
-		</header>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="./home.jsp">Tripi</a>
+        
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="./logout">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
 
     <!-- Page Content -->
    	<div id="search-bar">
 
-            <img id="profileImage" src="img/img4.jpg" width="200" height="200">
+            <img id="profileImage" src="${profileImage}" width="200" height="200">
         
 			<nav id="profileName" >
                 <h3>${displayName}</h3>
@@ -174,11 +171,11 @@
         <nav id="myNavBar" class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a id="tripLink" class="nav-item nav-link active center" onclick="tripPage();" href="javascript:void(0)">Your Trips </a>
+              <a id="tripLink" class="nav-item nav-link active center" onclick="tripPage();" href="#">Your Trips </a>
                 <div class="links">
-              <a  id="createLink" class="nav-item nav-link center" onclick="CreateTrip();" href="javascript:void(0)">Create Trip</a>
+              <a  id="createLink" class="nav-item nav-link center" onclick="CreateTrip();" href="#">Create Trip</a>
                 </div>
-              <a id="updateLink" class="nav-item nav-link center" onclick="update();"  href="javascript:void(0)">Update Profile</a>
+              <a id="updateLink" class="nav-item nav-link center" onclick="update();"  href="#">Update Profile</a>
 
             </div>
           </div>
@@ -188,33 +185,31 @@
     <!-- content -->
         <div class="container" id="tripsPage">
         	<%
-        		
         		ArrayList<String> photoLinks = (ArrayList<String>)request.getAttribute("photoLinks");
-		 		ArrayList<String> descriptions = (ArrayList<String>)request.getAttribute("descriptions");
-		 		ArrayList<String> titles = (ArrayList<String>)request.getAttribute("titles");
-		 		ArrayList<String> mainPlaces = (ArrayList<String>)request.getAttribute("mainPlaces");
+        	  ArrayList<String> descriptions = (ArrayList<String>)request.getAttribute("descriptions");
+        	  ArrayList<String> titles = (ArrayList<String>)request.getAttribute("titles");
+        	  ArrayList<String> mainPlaces = (ArrayList<String>)request.getAttribute("mainPlaces");
 		 		
-		 		for(int i = 0; i < photoLinks.size(); i++){
-		 			if(i % 3 == 0){
-		 				if(i > 0){
-		 					out.println("</div>");
-		 				}
-		 				out.println("<div class=\"row\">");
-		 			}
-		 			out.println("<div id=\"search-results\" class=\"col-md-4\">");
-		 			out.println("\t<div id=\"results\">");
-		 			out.println("\t\t<div class=\"result-blocks\">");
-		 			out.println("\t\t\t<a class=\"\" href=\"#\">");
-		 			out.println("\t\t\t\t<img class=\"result-img\" src=\"" + photoLinks.get(i) + "\">");
-		 			out.println("\t\t\t\t<div class=\"result-text\">");
-		 			out.println("\t\t\t\t<h3>" + titles.get(i) + "</h3>");
-		 			out.println("\t\t\t\t" + descriptions.get(i));
-		 			out.println("\t\t\t\t</div>");
-		 			out.println("\t\t\t</a>");
-		 			out.println("\t\t</div>");
-		 			out.println("\t</div>");
-		 			out.println("</div>");
-		 		
+        	  for(int i = 0; i < photoLinks.size(); i++){
+        		  if(i % 3 == 0){
+		 				  if(i > 0){
+		 			      out.println("</div>");
+		 				  }
+		 				  out.println("<div class=\"row\">");
+		 			  }
+			 			out.println("<div id=\"search-results\" class=\"col-md-4\">");
+			 			out.println("\t<div id=\"results\">");
+			 			out.println("\t\t<div class=\"result-blocks\">");
+			 			out.println("\t\t\t<a class=\"\" href=\"#\">");
+			 			out.println("\t\t\t\t<img class=\"result-img\" src=\"" + photoLinks.get(i) + "\">");
+			 			out.println("\t\t\t\t<div class=\"result-text\">");
+			 			out.println("\t\t\t\t<h3>" + titles.get(i) + "</h3>");
+			 			out.println("\t\t\t\t" + descriptions.get(i));
+			 			out.println("\t\t\t\t</div>");
+			 			out.println("\t\t\t</a>");
+			 			out.println("\t\t</div>");
+			 			out.println("\t</div>");
+			 			out.println("</div>");
         		}
 		 		
 		 		out.println("</div>");
@@ -227,37 +222,28 @@
       
       <div class="container" id="createPage" style="display: none;">
       
-       <form name="createForm" onsubmit="return validateCreate();" action="./new">
+       <form name="createForm" onsubmit="return validateCreate();" action="./create">
            <br>
           <div class="form-group">
-            <span class="asteriskField">
-            *
-           </span>
-            Enter Place:<br><br>
+            Place:<br><br>
             <div  class="autocomplete">
-                <input style="margin-left: 180px; width: 70%;" type="type" class="form-control" id="placeInput" name="country" placeholder="Enter place"/>
+                <input style="margin-left: 180px; width: 70%;" type="text" class="form-control" id="placeInput" name="mainPlace" placeholder="New York, NY" required/>
             </div>
           </div>
            <br>
             <div id="countryError" style="color: red;"></div>
            <br>
-            <span class="asteriskField">
-            *
-           </span>
-            Enter Name of Trip:<br><br>
-            <input style="margin-left: 180px; width: 70%;" type="type" class="form-control" id="nameInput" name="city" placeholder="Enter name"/>
+            Trip Title:<br><br>
+            <input style="margin-left: 180px; width: 70%;" type="text" class="form-control" id="titleInput" name="title" placeholder="Big Apple Tour" required/>
            <br>
             <div id="cityError" style="color: red;"></div>
            <br>
           <div class="form-group ">
           <label class="control-label  requiredField" for="date">
-            <span class="asteriskField">
-            *
-           </span>
-           Enter photo link:
+           Cover Photo Link:
           </label>
             <br><br>
-            <input style="margin-left: 180px; width: 70%;" class="form-control" id="linkInput" name="date" placeholder="link" type="type"/>
+            <input style="margin-left: 180px; width: 70%;" class="form-control" id="linkInput" name="coverPhotoLink" placeholder="http://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/1444253482/DG2015-new-york.jpg?itok=neFmsUY1" type="text" required/>
            </div>
 
            <br>
@@ -265,10 +251,10 @@
            <br>
          <div class="form-group ">
           <label class="control-label">
-           Write description:
+           Description:
           </label>
             <br><br>
-            <input style="margin-left: 180px; width: 70%;" class="form-control" id="descriptionInput" name="date" placeholder="description" type="type"/>
+            <input style="margin-left: 180px; width: 70%;" class="form-control" id="descriptionInput" name="description" placeholder="Leisurely tour of New York City" type="text" required />
            </div>
          <div class="form-group">
            <button class="btn btn-primary " name="submit" type="submit">
@@ -335,6 +321,9 @@
     <!-- Include Date Range Picker -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
     <script src="js/profile.js"></script>  
+    
+    <!-- Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEOE3jhPysVbJtjukU7Tc3Lkc-Q4fdSEk&libraries=places&callback=initAutocomplete" async defer></script>
     
   </body>
 

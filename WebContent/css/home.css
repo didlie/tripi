@@ -64,7 +64,7 @@ header button:hover{
 
 /*Search Field*/
 #search-bar{
-	background-image: url("../img/background.jpg");
+	background-image: url("../img/home-bg.jpg");
 	background-position: center;
 	background-size: cover;
 	width: 100%;
@@ -159,4 +159,10 @@ h2{
 }
 .result-text{
 	padding:10px;
+}
+
+/* Navbar */
+.navbar-light .navbar-brand {
+  color: #426F1C;
+  text-transform: uppercase;
 }

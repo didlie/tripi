@@ -12,22 +12,51 @@
 
     <!-- Bootstrap core CSS -->
     <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="https://getbootstrap.com/docs/4.0/examples/sign-in/signin.css" rel="stylesheet">
+    
+    <style>
+    .auth-form {
+      width: 330px;
+      margin: 0 auto;
+    }
+    
+    input[type='text'], input[type='password'], input[type='email'] {
+      border-radius: 0;
+    }
+    
+    .auth-form .first {
+      border-radius: 5px 5px 0 0;
+    }
+    
+    .auth-form .last {
+      border-radius: 0 0 5px 5px;
+    }
+    </style>
   </head>
 
-  <body class="text-center" style = "background-image: url('background.jpg'); background-size: cover;">
-    <form class="form-signin" method = "POST" action = "authenticate1_signup.jsp">
-      <a href = "home.jsp"><img class="mb-4" src="logoorange.png" alt="" width="auto" height="300"></a>
+  <body class="text-center" style = "background-image: url('./img/auth-bg.jpg'); background-size: cover;">
+    <form class="auth-form" method = "POST" action = "./signup">
+      <a href = "home.jsp"><img class="mb-4" src="./img/logoorange.png" alt="" width="auto" height="300"></a>
       <div style = "margin-top: -60px;">
       <h1 class="h3 mb-3 font-weight-normal" style = "color: #f9880e;">Please fill out</h1>
-      <label for="inputFname" class="sr-only">First Name</label>
-      <input type="fname" id="fname" name="username" class="form-control" placeholder="First Name" required><span style="color: red;font-weight:bold">${username_error!=null? username_error : username_repeat_error!=null? username_repeat_error : ''}</span>
-      <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus><span style="color: red;font-weight:bold">${email_error!=null? email_error : email_repeat_error!=null? email_repeat_error : ''}</span>
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required><span style="color: red;font-weight:bold">${password_error!=null? password_error : ''}</span>
+      
+      <% if (request.getAttribute("error") != null) { %>
+      <div class="alert alert-danger item-form-alert" role="alert">
+        <%= request.getAttribute("error") %>
+      </div>
+      <% } %>
+        
+      <input type="text" id="username" name="username" class="form-control first" placeholder="Username" required>
+      
+      <input type="email" id="email" name="email" class="form-control" placeholder="Email Address" required autofocus>
+      
+      <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+      
+      <input type="text" id="displayName" name="displayName" class="form-control" placeholder="Display Name" required>
+      
+      <input type="text" id="profilePic" name="profilePic" class="form-control last" placeholder="Profile Pic Link" required>
+      
+      <br>
+      
       <button class="btn btn-lg btn-primary btn-block" type="submit" style = "background-color: #f9880e; border-color: #f9880e;">Sign up</button>
     	</div>
     </form>
