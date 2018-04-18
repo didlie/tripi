@@ -160,3 +160,9 @@ h2{
 .result-text{
 	padding:10px;
 }
+
+/* Navbar */
+.navbar-light .navbar-brand {
+  color: #426F1C;
+  text-transform: uppercase;
+}

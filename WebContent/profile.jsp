@@ -143,23 +143,27 @@
   <body>
 
     <!-- header -->
-		<header>
-			
-			<a href="home.html"><h1 id="logo-font"> TRIPI </h1></a>
-			
-			<div id="header-button-div">
-				<a href="login.html">
-					<button type="button" class="btn btn-light">Log Out</button>
-				</a>
-			</div>
-
-
-		</header>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="./home.jsp">Tripi</a>
+        
+        <ul class="navbar-nav ml-auto">
+          <%
+          if (request.getSession().getAttribute("User_ID") == null) {
+            %>
+               <li class="nav-item"><a class="nav-link" href="./login.jsp">Log In</a></li>
+              <li class="nav-item"><a class="nav-link" href="./signup.jsp">Sign Up</a></li>
+            <% } else {  %>
+              <li class="nav-item"><a class="nav-link" href="./logout">Logout</a></li>
+          <% } %>
+        </ul>
+      </div>
+    </nav>
 
     <!-- Page Content -->
    	<div id="search-bar">
 
-            <img id="profileImage" src="img/img4.jpg" width="200" height="200">
+            <img id="profileImage" src="<%= request.getAttribute("profileImage") %>" width="200" height="200">
         
 			<nav id="profileName" >
                 <h3>${displayName}</h3>

@@ -47,8 +47,6 @@ public class JDBCDriver {
 		ArrayList<ArrayList<String>>  stat = new ArrayList<ArrayList<String>>();
 		connect();
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/Tripi?user=root&password="+ password+"&useSSL=false");
-			System.out.println("Search Place Connected?" + place);
 			String sql = "SELECT Trip.Trip_ID, " + 
 					"  Trip.cover_photo_link, TRIP.title, Trip.description,  Trip.main_place\n" + 
 					"FROM Trip\n" + 
@@ -78,8 +76,6 @@ public class JDBCDriver {
 		ArrayList<ArrayList<String>>  stat = new ArrayList<ArrayList<String>>();
 		connect();
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/Tripi?user=root&password="+password+"&useSSL=false");
-			System.out.println("Get A Trip Connected?" + trip_id);
 			String sql = "SELECT Trip.Trip_ID, Trip.cover_photo_link, "
 					+ "Trip.title, Trip.description, Trip.main_place,\n" + 
 					"	Users.username, Users.profile_s\n" + 
@@ -113,8 +109,6 @@ public class JDBCDriver {
 		ArrayList<ArrayList<String>>  stat = new ArrayList<ArrayList<String>>();
 		connect();
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/Tripi?user=root&password="+ password+"&useSSL=false");
-			System.out.println("Get All Trips connected?");
 			String sql = "SELECT Trip.Trip_ID, " + 
 					"  Trip.cover_photo_link, TRIP.title, Trip.description,  Trip.main_place\n" + 
 					"FROM Trip\n" + 
@@ -142,12 +136,12 @@ public class JDBCDriver {
 	public static boolean validate(String email, String pwd) {
 		connect();
 		try {
-			ps = conn.prepareStatement("select User_password from Users where User_email=?;"); //"password" depends on the final name in database
+			ps = conn.prepareStatement("select password from Users where email=?;"); //"password" depends on the final name in database
 			ps.setString(1, email);
 			rs = ps.executeQuery();
 			
 			if(rs.next()){
-				if(pwd.equals(rs.getString("User_password")) ){ //"password" depends on the final name in database
+				if(pwd.equals(rs.getString("password")) ){ //"password" depends on the final name in database
 					return true;
 				}
 			}
@@ -182,7 +176,7 @@ public class JDBCDriver {
 	public static void adduser(String un, String em, String pwd) {
 		connect();
 		try {
-			ps = conn.prepareStatement("insert into Users (User_password, User_name, User_email) values (pwd, un, em);");
+			ps = conn.prepareStatement("insert into Users (password, username, email) values (pwd, un, em);");
 			rs = ps.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();

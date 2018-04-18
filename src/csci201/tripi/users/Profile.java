@@ -1,3 +1,4 @@
+package csci201.tripi.users;
 
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class toProfilePage
  */
 @WebServlet("/profile")
-public class toProfilePage extends HttpServlet {
+public class Profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -47,8 +48,9 @@ public class toProfilePage extends HttpServlet {
 		 
 		 
 		 //get profile image
+		 String profileImage = "";
 		 if(rs.next()) {
-			 String profileImage = rs.getString("profile_s");
+			 profileImage = rs.getString("profile_s");
 		 }
 		
 		 
@@ -75,7 +77,7 @@ public class toProfilePage extends HttpServlet {
 		 request.setAttribute("titles", titles);
 		 request.setAttribute("mainPlaces", mainPlaces);
 		 //profile
-		 //request.setAttribute("profileImage", profileImage);
+		 request.setAttribute("profileImage", profileImage);
 		 request.setAttribute("displayName", displayName);
 		 } catch (SQLException sqle) {
 			  System.out.println ("sqle: " + sqle.getMessage());
@@ -92,7 +94,7 @@ public class toProfilePage extends HttpServlet {
 		}
 		 
 		 //change this if necessary
-		  String nextPage = "/profilePage.jsp";
+		  String nextPage = "/profile.jsp";
 		  RequestDispatcher dispatcher =
 		  getServletContext().getRequestDispatcher(nextPage);
 		  dispatcher.forward(request,response);

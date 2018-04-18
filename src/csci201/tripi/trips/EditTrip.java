@@ -26,6 +26,11 @@ public class EditTrip extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (request.getSession().getAttribute("User_ID") == null) {
+			response.sendRedirect("./home.jsp");
+			return;
+		}
+		
 		Connection conn = null;
 		Statement st = null;
 		PreparedStatement ps = null;
@@ -48,6 +53,8 @@ public class EditTrip extends HttpServlet {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
+				int userID = rs.getInt("user_id");
+				
 				String title = rs.getString("title");
 				request.setAttribute("title", title);
 				
@@ -60,7 +67,7 @@ public class EditTrip extends HttpServlet {
 				String mainPlace = rs.getString("main_place");
 				request.setAttribute("mainPlace", mainPlace);
 			}
-			
+
 			PreparedStatement itemsPs = null;
 			ResultSet itemSet = null;
 			
