@@ -15,12 +15,20 @@
   
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Tripi</a>
+      <div class="container">
+        <a class="navbar-brand" href="./home.jsp">Tripi</a>
         
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
-          <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
+          <%
+          if (request.getSession().getAttribute("user_id") == null) {
+            %>
+               <li class="nav-item"><a class="nav-link" href="./login">Log In</a></li>
+              <li class="nav-item"><a class="nav-link" href="./signup">Sign Up</a></li>
+            <% } else {  %>
+              <li class="nav-item"><a class="nav-link" href="./profile">Hello <%= request.getSession().getAttribute("displayname") %></a></li>
+          <% } %>
         </ul>
+      </div>
     </nav>
 
     <div class="container-fluid full-screen">

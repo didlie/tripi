@@ -25,33 +25,9 @@
         document.getElementById('updatePage').style.display = "block";
       }
         
-    function validateCreate(){
-        var city = document.getElementById('cityInput');
-        var date = document.getElementById('dateInput');
-        var country = document.getElementById('countryInput');
-        var cityError = document.getElementById('cityError');
-        var dateError = document.getElementById('dateError');
-        var countryError = document.getElementById('countryError');
-        var cityEr = false;
-        var dateEr = false;
-        var countryEr = false;
-        
-        if(city.value === null || city.value.length <= 0){
-            cityError.innerHTML = "<strong>Please Enter City</strong>";
-            cityEr = true;
-        }
-        if(date.value === null || date.value.length <= 0){
-            dateError.innerHTML = "<strong>Please Enter Date!</strong>";
-            dateEr = true;
-        }
-        if(country.value === null || country.value.length <= 0){
-            countryError.innerHTML = "<strong>Please Enter Country!</strong>";
-            countryEr = true;
-        }
-        if(cityEr || dateEr || countryEr){
-            return false;
-        }
-        
+    function validateCreate() {
+    		shortenPlace();
+    		return true;
     }
 
     function validateUpdate(){
@@ -73,7 +49,23 @@
         return true;
     }
 
-    
+    var autocomplete;
+
+	function initAutocomplete() {
+        // Create the autocomplete object, restricting the search to geographical
+        // location types.
+        autocomplete = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */(document.getElementById('placeInput')),
+            {types: ['geocode']});
+    }
+	
+	function shortenPlace(){
+		var searchTerm = document.querySelector('#placeInput').value;
+		searchTerm = searchTerm.trim();
+		var place = autocomplete.getPlace();
+		var short_name = place.address_components[0]["short_name"]	
+		document.querySelector('#placeInput').value = short_name;
+	}
         
         /*for autocomplete date*/
 	$(document).ready(function(){

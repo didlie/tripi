@@ -1,8 +1,8 @@
-DROP DATABASE if exists Tripi_Exp;
+DROP DATABASE if exists Tripi;
 
-CREATE DATABASE Tripi_Exp;
+CREATE DATABASE Tripi;
 
-use Tripi_Exp;
+use Tripi;
 
 create table User(
     user_id int(11) primary key not null auto_increment,

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import = "jdbc.*, java.util.ArrayList"%>
+    pageEncoding="UTF-8" import = "csci201.tripi.database.JDBCDriver, java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -39,12 +39,12 @@
         
         <ul class="navbar-nav ml-auto">
           <%
-          if (request.getSession().getAttribute("User_ID") == null) {
+          if (request.getSession().getAttribute("user_id") == null) {
         	  %>
         	     <li class="nav-item"><a class="nav-link" href="./login">Log In</a></li>
               <li class="nav-item"><a class="nav-link" href="./signup">Sign Up</a></li>
         	  <% } else {  %>
-              <li class="nav-item"><a class="nav-link" href="./profile">Hello <%= request.getSession().getAttribute("email") %></a></li>
+              <li class="nav-item"><a class="nav-link" href="./profile">Hello <%= request.getSession().getAttribute("displayname") %></a></li>
           <% } %>
         </ul>
 		  </div>
