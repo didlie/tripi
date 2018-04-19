@@ -56,8 +56,17 @@
 		    
 		function validateCreate(){
 			shortenPlace();
-		    sendMessage(name, place, link, description);
-		    return true;
+			var name = document.getElementById('nameInput');
+			var link = document.getElementById('linkInput');
+			var place = document.getElementById('placeInput');
+			var description = document.getElementById('descriptionInput');
+			if (name != null && link != null && place != null && description != null) {
+				sendMessage(name, place, link, description);
+		    		return true;
+			}
+			else {
+				console.log("missing a field")
+			}
 		}
 		
 		function validateUpdate(){
@@ -114,12 +123,11 @@
 			var id = 0;
 			if(xhttp.responseText.trim().length > 0) { 
 				id = xhttp.responseText;
-				return false; //dont submit form
 			} 
 			else {
 				console.log("no id received");
+				return false;
 			}
-			return true;
 			event.data = {"message": "newI", "id": id, "place": place, "title": name, "img": link, "details": description};
 			socket.send(event.data);
 			return false; 
