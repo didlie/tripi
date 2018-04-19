@@ -160,6 +160,13 @@ h2{
 .result-text{
 	padding:10px;
 }
+/* Detail Description Display 2-line Overflow */
+.description{
+	display: block;
+	width: 270px;
+	height:50px;
+	overflow: hidden;
+}
 
 /* Navbar */
 .navbar-light .navbar-brand {

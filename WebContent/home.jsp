@@ -157,7 +157,7 @@
 					content += '<img  class="result-img" src="'+ img_link +'">';
 					content += '<div class="result-text">';
 					content += '<h3>'+ title +'</h3>';
-					content += description;
+					content += '<span class="description">'+description + '</span>';
 					content += '</a>';
 					content += '</div>';
 					content += '</div>';
@@ -198,7 +198,7 @@
 					content += '<img  class="result-img" src="'+ img_link +'">';
 					content += '<div class="result-text">';
 					content += '<h3>'+ title +'</h3>';
-					content += description;
+					content += '<span class="description">'+description + '</span>';
 					content += '</a>';
 					content += '</div>';
 					content += '</div>';
