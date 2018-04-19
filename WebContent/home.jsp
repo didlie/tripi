@@ -25,10 +25,21 @@
 			}
 		}
 
-		function sendMessage(id, name, place, link, description) { //for when you make a newI
+		function sendMessage(name, place, link, description) { //for when you make a newI
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("GET", "create?coverPhotoLink=" + link + "&description=" + description + "&title=" + name + "&mainPlace=" + place, false)
+			xhttp.send();
+			var id = 0;
+			if(xhttp.responseText.trim().length > 0) { 
+				id = xhttp.responseText;
+			} 
+			else {
+				console.log("no id received");
+				return false;
+			}
 			event.data = {"message": "newI", "id": id, "place": place, "title": name, "img": link, "details": description};
 			socket.send(event.data);
-			return false; //because on submit, if true, will go to same page and reload the connectToServer, so return false so it doesnt submit
+			return false; 
 		} 
 	</script>
 	
