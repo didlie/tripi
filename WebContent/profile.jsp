@@ -26,114 +26,6 @@
 
   </head>
 
-	<script>
-
-		    /* to change page without refreshing*/
-		    function tripPage(){
-		    document.getElementById('tripLink').classList.add('active');
-		    document.getElementById('updateLink').classList.remove('active');
-		    document.getElementById('createLink').classList.remove('active');
-		    document.getElementById('updatePage').style.display = "none";
-		    document.getElementById('createPage').style.display = "none";
-		    document.getElementById('tripsPage').style.display = "block";
-		  } 
-		  function CreateTrip(){
-		    document.getElementById('tripLink').classList.remove('active');
-		    document.getElementById('updateLink').classList.remove('active');
-		    document.getElementById('createLink').classList.add('active');
-		    document.getElementById('tripsPage').style.display = "none";
-		    document.getElementById('updatePage').style.display = "none";
-		    document.getElementById('createPage').style.display = "block";
-		  }      
-		function update(){
-		    document.getElementById('tripLink').classList.remove('active');
-		    document.getElementById('updateLink').classList.add('active');
-		    document.getElementById('createLink').classList.remove('active');
-		    document.getElementById('tripsPage').style.display = "none";
-		    document.getElementById('createPage').style.display = "none";
-		    document.getElementById('updatePage').style.display = "block";
-		  }
-		    
-		function validateCreate(){
-			shortenPlace();
-			var name = document.getElementById('nameInput');
-			var link = document.getElementById('linkInput');
-			var place = document.getElementById('placeInput');
-			var description = document.getElementById('descriptionInput');
-			if (name != null && link != null && place != null && description != null) {
-				sendMessage(name, place, link, description);
-		    		return true;
-			}
-			else {
-				console.log("missing a field")
-			}
-		}
-		
-		function validateUpdate(){
-		    var name = document.getElementById('nameInput');
-		    var image = document.getElementById('imageUrl');
-		    var password = document.getElementById('password');
-		    var passwordError = document.getElementById('passwordError');
-		    var passwordEr = false;
-		    
-		    if(name.value.length <= 0 && image.value.length <= 0 && password.value.length <= 0){
-		        passwordError.innerHTML = "<strong>Please Enter Update</strong>";
-		        passwordEr = true;
-		    }
-		    
-		    if(passwordEr === true){
-		        return false;
-		    }
-		    
-		    return true;
-		}
-		
-		
-		    
-		    /*for autocomplete date*/
-		$(document).ready(function(){
-			var date_input=$('input[name="date"]'); //our date input has the name "date"
-			var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-			date_input.datepicker({
-				format: 'mm/dd/yyyy',
-				container: container,
-				todayHighlight: true,
-				autoclose: true,
-			})
-		})
-
-	
-		var socket;
-		function connectToServer() {
-			socket = new WebSocket("ws://localhost:8080/WebSockets/ws"); 
-		
-			socket.onmessage = function(event) {
-				let message = JSON.parse(event.data); // assume event.data = {"message": "login", "user": "natalie"}
-
-				if(message.message == "newI"){
-					var htmlString = "<div class = 'result-blocks'><a href = 'view?id=" + message.id + "'><img class = 'result-img' src = '" + message.img;
-					htmlString += "'> <div class = 'result-text'><h3>" + message.title + "</h3>" + message.details + "</div></a></div>";
-					document.getElementById("results").innerHTML += htmlString;
-				}
-			}
-		function sendMessage(var name, var place, var link, var description) { //for when you make a newI
-			var xhttp = new XMLHttpRequest();
-			xhttp.open("GET", "create?coverPhotoLink=" + link + "&description=" + description + "&title=" + name + "&mainPlace=" + place, false)
-			xhttp.send();
-			var id = 0;
-			if(xhttp.responseText.trim().length > 0) { 
-				id = xhttp.responseText;
-			} 
-			else {
-				console.log("no id received");
-				return false;
-			}
-			event.data = {"message": "newI", "id": id, "place": place, "title": name, "img": link, "details": description};
-			socket.send(event.data);
-			return false; 
-		} 
-	</script>
-
   <body>
 
     <!-- header -->
@@ -314,7 +206,7 @@
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Include Date Range Picker -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-    <script src="js/profile.js"></script>  
+    <script src="js/profile.js"></script> 
     
     <!-- Google Maps -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEOE3jhPysVbJtjukU7Tc3Lkc-Q4fdSEk&libraries=places&callback=initAutocomplete" async defer></script>

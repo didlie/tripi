@@ -87,6 +87,8 @@ $("#addItemForm").submit(function(event) {
 					map: map
 				});
 				
+				location.reload();
+				
 //				var time = $("#itemTime").val();
 //				var type = $("#itemType").val();
 //				var title = $("#itemTitle").val();

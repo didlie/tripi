@@ -51,20 +51,37 @@
            
 				  <div class="trip-items">
 				    <%
-				    List<Item> tripItems = (List<Item>) request.getAttribute("tripItems");
-				    
-				    for(Item i : tripItems) {
-				    	%>
-				    	<div class="card trip-item" data-longitude="<%= i.getLongitude() %>" data-latitude="<%= i.getLatitude() %>">
-              <div class="card-body">
-                <h5 class="card-title"><%= i.getTitle() %></h5>
-                <p class="card-subtitle"><%= i.getAddress() %></p>
+            List<Item> tripItems = (List<Item>) request.getAttribute("tripItems");
+            
+            for(Item i : tripItems) {
+                String icon = "";
+                
+                if (i.getType().equals("hotel")) {
+                  icon = "<i class='fas fa-h-square icon'></i> ";
+                } else if (i.getType().equals("place")) {
+                  icon = "<i class='fas fa-map-pin icon'></i> ";
+                } else {
+                  icon = "<i class='fas fa-calendar icon'></i> ";
+                }
+              %>
+              <div class="card trip-item" data-longitude="<%= i.getLongitude() %>" data-latitude="<%= i.getLatitude() %>" data-time="<%= i.getTime() %>">
+              <div class="card-body item-<%= i.getType() %>">
+                <h5 class="card-title"><%= icon %><%= i.getTitle() %></h5>
+                <h6 class="card-subtitle address"><%= i.getAddress() %></h6>
                 <p class="card-text"><%= i.getDescription() %></p>
+                
+                <hr> 
+                
+                <h6 class="card-subtitle time"></h6>
+                
+                <% if (!i.getLink().trim().equals("")) { %>
+                  <a href="<%= i.getLink() %>" class="card-link">See More</a>
+                <% } %>
               </div>
             </div>
-				    	<%
-				    }
-				    %>
+              <%
+            }
+            %>
           </div>
 				</div>
 			</div>      
@@ -73,6 +90,8 @@
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.js"></script>
+    <script src="./js/combodate.js"></script>
     <script src="./js/trip.js"></script>
     
     <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>

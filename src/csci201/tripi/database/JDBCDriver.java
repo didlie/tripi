@@ -300,7 +300,7 @@ public class JDBCDriver {
 				String itemTitle = rs.getString("title");
 				String itemDescription = rs.getString("description");
 				String itemLatitude = rs.getString("latitude");
-				String itemLongitude = rs.getString("longtitude");
+				String itemLongitude = rs.getString("longitude");
 				String itemTime = rs.getString("time");
 				String itemAddress = rs.getString("address");
 				String itemType = rs.getString("type");

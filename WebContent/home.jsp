@@ -10,39 +10,6 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head> 
 	
-	<script>
-	var socket;
-	function connectToServer() {
-		socket = new WebSocket("ws://localhost:8080/WebSockets/ws"); 
-	
-		socket.onmessage = function(event) {
-			let message = JSON.parse(event.data); // assume event.data = {"message": "login", "user": "natalie"}
-
-			if(message.message == "newI"){
-				var htmlString = "<div class = 'result-blocks'><a href = 'view?id=" + message.id + "'><img class = 'result-img' src = '" + message.img;
-				htmlString += "'> <div class = 'result-text'><h3>" + message.title + "</h3>" + message.details + "</div></a></div>";
-				document.getElementById("results").innerHTML += htmlString;
-			}
-		}
-
-		function sendMessage(name, place, link, description) { //for when you make a newI
-			var xhttp = new XMLHttpRequest();
-			xhttp.open("GET", "create?coverPhotoLink=" + link + "&description=" + description + "&title=" + name + "&mainPlace=" + place, false)
-			xhttp.send();
-			var id = 0;
-			if(xhttp.responseText.trim().length > 0) { 
-				id = xhttp.responseText;
-			} 
-			else {
-				console.log("no id received");
-				return false;
-			}
-			event.data = {"message": "newI", "id": id, "place": place, "title": name, "img": link, "details": description};
-			socket.send(event.data);
-			return false; 
-		} 
-	</script>
-	
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		  <div class="container">
@@ -231,9 +198,44 @@
 				window.onload = DisplayAllPlaces();
 				document.querySelector('#result-search-term').innerHTML = "Worldwide";
 			<%}%>
-			 
-		
 		</script>
+		
+		<script>
+	  var socket;
+	  function connectToServer() {
+	    socket = new WebSocket("ws://localhost:8080/tripi_csci201/feed"); 
+	  
+	    socket.onmessage = function(event) {
+	      let message = JSON.parse(event.data); // assume event.data = {"message": "login", "user": "natalie"}
+	
+	      if(message.message == "newI"){
+	        var htmlString = "<div class = 'result-blocks'><a href = 'view?id=" + message.id + "'><img class = 'result-img' src = '" + message.img;
+	        htmlString += "'> <div class = 'result-text'><h3>" + message.title + "</h3>" + message.details + "</div></a></div>";
+	        document.getElementById("results").innerHTML += htmlString;
+	      }
+	    }
+	  }
+	
+	    function sendMessage(name, place, link, description) { //for when you make a newI
+	      var xhttp = new XMLHttpRequest();
+	      xhttp.open("GET", "create?coverPhotoLink=" + link + "&description=" + description + "&title=" + name + "&mainPlace=" + place, false)
+	      xhttp.send();
+	      var id = 0;
+	      if(xhttp.responseText.trim().length > 0) { 
+	        id = xhttp.responseText;
+	      } 
+	      else {
+	        console.log("no id received");
+	        return false;
+	      }
+	      event.data = {"message": "newI", "id": id, "place": place, "title": name, "img": link, "details": description};
+	      socket.send(event.data);
+	      return false; 
+	    } 
+	    
+	    connectToServer();
+	  </script>
+  
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEOE3jhPysVbJtjukU7Tc3Lkc-Q4fdSEk&libraries=places&callback=initAutocomplete"
         async defer></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>

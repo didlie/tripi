@@ -1,3 +1,4 @@
+package csci201.trips.multithreading;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -6,9 +7,13 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Vector;
 
-@ServerEndpoint(value = "/ws")
-public class serverSocket {
+@ServerEndpoint(value = "/feed")
+public class ServerSocket {
 	private static Vector<Session> sessionVector = new Vector<Session>(); 
+	
+	public ServerSocket() {
+		System.out.println("what's good");	
+	}
 	
 	@OnOpen 
 	public void open(Session session) {
