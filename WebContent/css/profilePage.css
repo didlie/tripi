@@ -174,11 +174,6 @@ h2{
 	border-radius: 15%;
 }
 
-.nav-item{
-    width: 453px;
-    text-align: center;
-}
-
 .links{
     border: 2px solid red;
     border-bottom: 0px;
@@ -230,4 +225,10 @@ input[type=submit] {
   /*when navigating through the items using the arrow keys:*/
   background-color: DodgerBlue !important;
   color: #ffffff;
+}
+
+/* Navbar */
+.navbar-light .navbar-brand {
+  color: #426F1C;
+  text-transform: uppercase;
 }
