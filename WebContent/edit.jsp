@@ -83,7 +83,12 @@
             }
             %>
             
-            <a class="btn btn-primary" href="#" id="addItemModalShow">Add Item</a>
+            <div class="container">
+            	<div class="row">
+            		<a class="btn btn-primary col-md-2" href="#" id="addItemModalShow">Add Item</a>
+            		<a class="btn btn-primary col-md-5" style="margin-left: 30px;" href="./searchEvent.jsp?id=<%= request.getAttribute("tripId") %>" >Find Event/Accommodations</a>
+            	</div>
+            </div>
           </div>
         </div>
       </div>      

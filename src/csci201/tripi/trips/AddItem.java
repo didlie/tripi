@@ -30,6 +30,7 @@ public class AddItem extends HttpServlet {
 		PreparedStatement ps = null;
 		
 		String tripId = request.getParameter("id");
+		System.out.println("in add item: " + request.getParameter("title"));
 		
 		if (tripId == null) {
 			tripId = "";
@@ -78,8 +79,10 @@ public class AddItem extends HttpServlet {
 			}
 		}
 		
+		
 		PrintWriter out = response.getWriter();
 		out.println(responseMessage);
 		out.close();
+		
 	}
 }

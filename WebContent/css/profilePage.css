@@ -127,16 +127,26 @@ h2{
 	margin:20px;
 }
 
+#result-search-term{
+	text-decoration: underline;
+}
+
 .result-img{
 	width: 100%;
 	height: 200px;
 	object-fit: cover;
 
 }
-.result-text{ /*changed*/
+.result-text{
+	background-color: white !important;
 	padding:10px;
-    background-color: darkgrey;
-    border-style:solid;
+}
+/* Detail Description Display 2-line Overflow */
+.description{
+	display: block;
+	width: 270px;
+	height:50px;
+	overflow: hidden;
 }
 
 /* added this at the bottom */
@@ -179,6 +189,12 @@ h2{
     border-bottom: 0px;
     border-top: 0px;
 }
+
+#updateLink, #createLink, #tripLink{
+	margin-left: 175px;
+	margin-right: 175px;
+}
+
 
 /*form */
 .bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{
