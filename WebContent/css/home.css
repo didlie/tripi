@@ -1,6 +1,7 @@
 body{
 	/*background-color: #EAE7D6;*/
-	color: #14A76C;
+	/*color: #14A76C;*/
+	color:#f9880e;
 	/*color: #E98074;
 	color: #F3D250;*/
 }
@@ -11,6 +12,26 @@ header{
 	height: 52px;
 	/*background-color: ;*/
 	/*border-bottom: 1px solid #D8C3A5;*/
+}
+
+/*button style*/
+.btn{
+	color:inherit!important;
+	border-color: inherit!important;
+}
+.btn:hover {
+	background-color: #f9880e !important;
+	color: white !important;
+
+}
+.btn:active{
+	background-color: #f9880e !important;
+	border-color: #f9880e !important;
+	outline:0 !important;
+}
+
+button:focus {
+	outline:0 !important;
 }
 
 a{
@@ -58,8 +79,10 @@ header button{
 }
 
 header button:hover{
-	background-color: #14A76C !important;
-	color: white !important;
+	/*background-color: #14A76C !important;*/
+	/*background-color: #f9880e !important;*/
+	/*color: white !important;*/
+	color:#f9880e !important;
 }
 
 /*Search Field*/
@@ -75,12 +98,20 @@ header button:hover{
 
 
 
-/*form{
-	width: 100%;
-	margin:auto;
-	text-align: center;
+/*Carousel*/
+
+
+.carousel-item {
+  height: 100vh;
+  max-height: 500px;
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
-*/
+
+
 h2{
 	font-size: 2em;
 	font-weight: normal;
@@ -88,15 +119,15 @@ h2{
 	width: 100%;
 	padding: 0px;
 	margin-top: 0px;
-	margin-bottom: 40px;
 }
 
 #search-nav{
 	background-color: white !important;
-	height: 200px;
+	height: 250px;
 	width: 70%;
-	position: absolute;
-	margin-top: 300px;
+	/*z-index: 100!important;*/
+	/*position: absolute;*/
+	margin-top: -140px;
 	text-align: center;
 	margin-left: 15%;
 	border-radius: 3px 3px 3px 3px !important;
@@ -106,6 +137,7 @@ h2{
 
 .search-field{
 	width: 100%;
+	margin-top: -40px;
 }
 .search-input{
 	width: 50% !important;
@@ -123,7 +155,7 @@ h2{
 #search-results{
 	
 	margin:auto;
-	margin-top: 100px;
+	margin-top: 10px;
 	width: 80%;
 }
 
@@ -138,10 +170,10 @@ h2{
 	background: url(../img/loader-64x/Preloader_2.gif) center no-repeat #fff;
 }
 
+
 /* Results Block*/
 .result-blocks{
 	width: 300px;
-	
 	box-shadow: 1px 1px 1px 1px lightgrey;
 	float: left;
 	margin:20px;
@@ -152,9 +184,8 @@ h2{
 }
 
 .result-img{
-	width: 100%;
-	height: 200px;
 	object-fit: cover;
+	height: 200px !important;
 
 }
 .result-text{
@@ -163,7 +194,7 @@ h2{
 /* Detail Description Display 2-line Overflow */
 .description{
 	display: block;
-	width: 270px;
+	/*width: 270px;*/
 	height:50px;
 	overflow: hidden;
 }
@@ -173,3 +204,63 @@ h2{
   color: #426F1C;
   text-transform: uppercase;
 }
+
+/*Semantic Blocks*/
+#semantic-results{
+	width:80%;
+	margin:auto;
+	/*border:1px solid red;*/
+	/*height: auto;*/
+}
+
+#semantic-results img{
+	height: 200px !important;
+}
+
+.card{
+	float:left!important;
+	margin-left: 50px!important;
+}
+
+/*Hover display button effects dim image*/
+
+.image{
+	position: relative;
+}
+
+
+.result-img{
+	opacity: 1;
+	display: block;
+	width: 100%;
+	height: auto;
+	transition: .5s ease;
+	backface-visibility: hidden;
+}
+
+
+.center{
+	transition: .5s ease;
+	opacity: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+
+	transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	/*text-align: center;*/
+}
+
+.teal{
+	width:160px;
+}
+.image:hover .result-img{
+	opacity: 0.5 !important;
+}
+
+
+.image:hover .center{
+	opacity: 1;
+}
+
+

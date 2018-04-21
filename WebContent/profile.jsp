@@ -18,90 +18,109 @@
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
-     <link href="css/profilePage.css" rel="stylesheet">
+     
       
     <!--Font Awesome (added because you use icons in your prepend/append) -->
      <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+     
+      <!--- Semantics UI Component CSS -->
+	<link rel="stylesheet" type="text/css" href="css/dist/components/icon.css">
+	<link rel="stylesheet" type="text/css" href="css/dist/components/button.css">
+	<link rel="stylesheet" type="text/css" href="css/dist/components/card.css">
+	<link rel="stylesheet" type="text/css" href="css/dist/components/label.css">
+	<link rel="stylesheet" type="text/css" href="css/dist/components/image.css">
+	<link rel="stylesheet" type="text/css" href="css/dist/components/reveal.css">
+	<link rel="stylesheet" type="text/css" href="css/dist/components/dimmer.css">
+	<link rel="stylesheet" type="text/css" href="css/dist/components/rating.css">
+	<link rel="stylesheet" type="text/css" href="css/dist/components/transition.css">
+	<link rel="stylesheet" type="text/css" href="css/dist/components/popup.css">
+	
+	
+	<link rel="stylesheet" type="text/css" href="css/header.css">
+	<link rel="stylesheet" type="text/css" href="css/semantic_block.css">
+	<link href="css/profilePage.css" rel="stylesheet">
+	
+	<!--- Semantic UI Component JS -->
+	<script src="css/assets/library/jquery.min.js"></script>
+	<script src="css/assets/library/iframe-content.js"></script>
+	<script type="text/javascript" src="css/dist/components/popup.js"></script>
+	<script type="text/javascript" src="css/dist/components/dimmer.js"></script>
+	<script type="text/javascript" src="css/dist/components/rating.js"></script>
+	<script type="text/javascript" src="css/dist/components/transition.js"></script>
+
+   
       
 
   </head>
 
   <body>
 
-    <!-- header -->
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container">
-        <a class="navbar-brand" href="./home.jsp">Tripi</a>
-        
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a class="nav-link" href="./logout">Logout</a></li>
-        </ul>
-      </div>
-    </nav>
+   
+	<!-- Nav Bar -->
+		<nav id="navigation" class="navbar navbar-expand-lg navbar-light bg-light">
+		  <div class="container">
+	        <!-- <a class="navbar-brand" href="./home.jsp">Tripi</a> -->
+	        <a href = "home.jsp"><img class="nav-img" src="./img/logo-nav.png" alt="" width="auto" height="300"></a>
 
-    <!-- Page Content -->
-   	<div id="search-bar">
 
-            <img id="profileImage" src="${profileImage}" width="200" height="200">
-        
-			<nav id="profileName" >
-                <h3>${displayName}</h3>
-			</nav>
-			
-     </div>
-      
-		<br style="clear: both;">
-      
+	        <ul class="navbar-nav ml-auto">
+	        	<%
+          			if (request.getSession().getAttribute("user_id") == null) {
+        	  	%>
+	        	  <li class="nav-item">
+	        	  	<a class="nav-link" href="./login">Log In</a>
+	        	  </li>
+	              <li class="nav-item">
+	              	<a class="nav-link" href="./signup">Sign Up</a>
+	              </li>
+	              <li class="nav-item">
+	              	<a class="nav-link" href="./login">Create Trip</a>
+	              </li>
+	            <% } else {  %>
+              	  <li class="nav-item">
+              	   <a class="nav-link" href="./profile">Hello <%= request.getSession().getAttribute("displayname") %></a>
+              	  </li>
 
-    <!-- navbar-->
-        <nav id="myNavBar" class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <a id="tripLink" class="nav-item nav-link active center" onclick="tripPage();" href="#">Your Trips </a>
-                <div class="links">
-              <a  id="createLink" class="nav-item nav-link center" onclick="CreateTrip();" href="#">Create Trip</a>
-                </div>
-              <a id="updateLink" class="nav-item nav-link center" onclick="update();"  href="#">Update Profile</a>
+          		  <li class="nav-item">
+          		  	<a class="nav-link" href="./logout">Logout</a>
+          		  </li>
 
+              	  
+          	<% } %>
+
+	        </ul>
+		  </div>
+    	</nav>
+    	
+    <!-- Profile BG -->
+    <div id="profile-bg">
+      <div id="profile-info">
+          <img id="profileImage" src="${profileImage}" width="200" height="200">
+       
+            <h3>@${displayName}</h3>
+           
+        <div class="sidenav">
+          <a id="tripLink" class="nav-item active sidebar" onclick="tripPage();" href="#">Your Trips </a>
+            <div class="links">
+          <a  id="createLink" class="nav-item sidebar" onclick="CreateTrip();" href="#">Create Trip</a>
             </div>
-          </div>
-        </nav>
+          <a id="updateLink" class="nav-item sidebar" onclick="update();"  href="#">Update Profile</a>
+
+        </div>
+    
+           
+    </div>
+    <!-- navbar-->
+    
+    <br style="clear: both;">
+    </div><!--End Profile bg-->
+      
+ 
  
             
     <!-- content -->
-        <div class="container" id="tripsPage">
-        	<%
-        		ArrayList<String> photoLinks = (ArrayList<String>)request.getAttribute("photoLinks");
-        	  ArrayList<String> descriptions = (ArrayList<String>)request.getAttribute("descriptions");
-        	  ArrayList<String> titles = (ArrayList<String>)request.getAttribute("titles");
-        	  ArrayList<String> mainPlaces = (ArrayList<String>)request.getAttribute("mainPlaces");
-		 		
-        	  for(int i = 0; i < photoLinks.size(); i++){
-        		  if(i % 3 == 0){
-		 				  if(i > 0){
-		 			      out.println("</div>");
-		 				  }
-		 				  out.println("<div class=\"row\">");
-		 			  }
-			 			out.println("<div id=\"search-results\" class=\"col-md-4\">");
-			 			out.println("\t<div id=\"results\">");
-			 			out.println("\t\t<div class=\"result-blocks\">");
-			 			out.println("\t\t\t<a class=\"\" href=\"#\">");
-			 			out.println("\t\t\t\t<img class=\"result-img\" src=\"" + photoLinks.get(i) + "\">");
-			 			out.println("\t\t\t\t<div class=\"result-text\">");
-			 			out.println("\t\t\t\t<h3>" + titles.get(i) + "</h3>");
-			 			out.println("\t\t\t\t" + descriptions.get(i));
-			 			out.println("\t\t\t\t</div>");
-			 			out.println("\t\t\t</a>");
-			 			out.println("\t\t</div>");
-			 			out.println("\t</div>");
-			 			out.println("</div>");
-        		}
-		 		
-		 		out.println("</div>");
-        	       	
-        	%>
-            
+      <div class="container" id="tripsPage">
+          <div id="semantic-results"></div>	
       </div>
       
       <!-- break page-->
@@ -208,8 +227,60 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
     <script src="js/profile.js"></script> 
     
+    <script>
+        
+      <%
+        ArrayList<String> idLinks = (ArrayList<String>)request.getAttribute("ids");
+        ArrayList<String> photoLinks = (ArrayList<String>)request.getAttribute("photoLinks");
+        ArrayList<String> descriptions = (ArrayList<String>)request.getAttribute("descriptions");
+        ArrayList<String> titles = (ArrayList<String>)request.getAttribute("titles");
+        ArrayList<String> mainPlaces = (ArrayList<String>)request.getAttribute("mainPlaces");
+      %>
+      	var content = "";
+        <% for(int i = 0; i < photoLinks.size(); i++){
+        %>
+	         var id = "<%=idLinks.get(i)%>";
+	         var img_link = "<%=photoLinks.get(i)%>";
+	         var title = "<%=titles.get(i)%>";
+	         var description = "<%=descriptions.get(i)%>";
+	         var main_place = "<%=mainPlaces.get(i)%>";
+	         
+     		content += '<div class="ui card">';
+			content += '<div class="image">';
+			content += '<img class="result-img" src="'+ img_link +'">';
+			content += '<div class="content">';
+			content += '<div class="center">';
+			
+			content += '<a href="view?id='+ id +'">';
+			content += '<div class="ui teal button">View Itinerary </div>';
+			content += '</a></div></div></div>';
+
+			content += '<div class="content">';
+			
+			content += '<div class="header">' + title + '</div>';
+			content += '<div class="description">';
+			
+			content += description;
+			content += '</div></div>';
+			content += '<div class="extra content">';
+			content += '<a class="friends"><i class="fa fa-map-marker"></i> ';
+			
+			content += main_place;
+			content += '</a></div></div>';
+     	<%}%>
+				
+		content += '<br style="clear: both;">';
+        if(content != ""){
+			document.getElementById('semantic-results').innerHTML = content;
+		}else{
+			document.getElementById('semantic-results').innerHTML = "You don't have any Trips Yet!";
+		}          
+   
+
+    </script>
     <!-- Google Maps -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEOE3jhPysVbJtjukU7Tc3Lkc-Q4fdSEk&libraries=places&callback=initAutocomplete" async defer></script>
+    
     
   </body>
 
