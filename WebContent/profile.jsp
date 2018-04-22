@@ -71,6 +71,7 @@
     <!-- content -->
         <div class="container" id="tripsPage">
         	<%
+        	  ArrayList<String> tripIds = (ArrayList<String>)request.getAttribute("tripIds");
         		ArrayList<String> photoLinks = (ArrayList<String>)request.getAttribute("photoLinks");
         	  ArrayList<String> descriptions = (ArrayList<String>)request.getAttribute("descriptions");
         	  ArrayList<String> titles = (ArrayList<String>)request.getAttribute("titles");
@@ -86,7 +87,7 @@
 			 			out.println("<div id=\"search-results\" class=\"col-md-4\">");
 			 			out.println("\t<div id=\"results\">");
 			 			out.println("\t\t<div class=\"result-blocks\">");
-			 			out.println("\t\t\t<a class=\"\" href=\"#\">");
+			 			out.println("\t\t\t<a class=\"\" href=\"./view?id=" + tripIds.get(i) + "\">");
 			 			out.println("\t\t\t\t<img class=\"result-img\" src=\"" + photoLinks.get(i) + "\">");
 			 			out.println("\t\t\t\t<div class=\"result-text\">");
 			 			out.println("\t\t\t\t<h3>" + titles.get(i) + "</h3>");

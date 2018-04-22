@@ -72,7 +72,7 @@
                 
                 <hr> 
                 
-                <h6 class="card-subtitle time"></h6>
+                <h6 class="card-subtitle time"><%= i.getFormattedTime() %></h6>
                 
                 <% if (!i.getLink().trim().equals("")) { %>
                   <a href="<%= i.getLink() %>" class="card-link">See More</a>

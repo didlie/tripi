@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import csci201.tripi.database.JDBCDriver;
+
 /**
  * Servlet implementation class toProfilePage
  */
@@ -40,56 +42,35 @@ public class Profile extends HttpServlet {
 		String profilePic = (String) request.getSession().getAttribute("profile_pic");
 
 		//to get trips, profile image, username trips
-		 Connection conn = null;
-		 Statement st = null;
-		 ResultSet rs = null;
-		 try {
-		 Class.forName("com.mysql.jdbc.Driver");
-		 conn = DriverManager.getConnection("jdbc:mysql://localhost/tripi?user=root&password=root&useSSL=false");
-		 st = conn.createStatement();
-		 
-		 rs = st.executeQuery("SELECT * FROM Trip t Where t.user_id=" + userId + ";");
+		ArrayList<ArrayList<String>> trips = JDBCDriver.getTripsByUser(userId);
+		
+		ArrayList<String> tripIds = new ArrayList<String>();
+		ArrayList<String> photoLinks = new ArrayList<String>();
+		ArrayList<String> descriptions = new ArrayList<String>();
+		ArrayList<String> titles = new ArrayList<String>();
+		ArrayList<String> mainPlaces = new ArrayList<String>();
 
-		 ArrayList<String> photoLinks = new ArrayList<String>();
-		 ArrayList<String> descriptions = new ArrayList<String>();
-		 ArrayList<String> titles = new ArrayList<String>();
-		 ArrayList<String> mainPlaces = new ArrayList<String>();
-		 while (rs.next()) {
-			 String link = rs.getString("cover_photo_link");
-			 String desc = rs.getString("description");
-			 String title = rs.getString("title");
-			 String place = rs.getString("main_place");
-
-			 photoLinks.add(link);
-			 descriptions.add(desc);
-			 titles.add(title);
-			 mainPlaces.add(place);
-		  }
-		 //trips
-		 request.setAttribute("photoLinks", photoLinks);
-		 request.setAttribute("descriptions", descriptions);
-		 request.setAttribute("titles", titles);
-		 request.setAttribute("mainPlaces", mainPlaces);
-		 //profile
-		 request.setAttribute("profileImage", profilePic);
-		 request.setAttribute("displayName", displayName);
-		 } catch (SQLException sqle) {
-			  System.out.println ("sqle: " + sqle.getMessage());
-		 } catch (ClassNotFoundException cnfe) {
-			  System.out.println ("cnfe: " + cnfe.getMessage());
-		} finally {
-			  try {
-				  if (rs != null) { rs.close(); }
-				  if (st != null) { st.close(); }
-				  if (conn != null) { conn.close(); }
-			  } catch (SQLException sqle) {
-			  System.out.println("sqle2: " + sqle.getMessage());
-			  }
+		for(ArrayList<String> trip : trips) {
+			tripIds.add(trip.get(0));
+			photoLinks.add(trip.get(1));
+			titles.add(trip.get(2));
+			descriptions.add(trip.get(3));
+			mainPlaces.add(trip.get(4));
 		}
-		 
-		 //change this if necessary
-		  RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profile.jsp");
-		  dispatcher.forward(request,response);
+
+		 //trips
+		request.setAttribute("tripIds", tripIds);
+		request.setAttribute("photoLinks", photoLinks);
+		request.setAttribute("descriptions", descriptions);
+		request.setAttribute("titles", titles);
+		request.setAttribute("mainPlaces", mainPlaces);
+		//profile
+		request.setAttribute("profileImage", profilePic);
+		request.setAttribute("displayName", displayName);
+
+		//change this if necessary
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profile.jsp");
+		dispatcher.forward(request,response);
 	}
 
 }

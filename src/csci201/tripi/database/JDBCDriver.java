@@ -136,6 +136,35 @@ public class JDBCDriver {
 		return stat;
 	}
 	
+	public static ArrayList<ArrayList<String>> getTripsByUser(String userId){
+		ArrayList<ArrayList<String>>  stat = new ArrayList<ArrayList<String>>();
+		connect();
+		try {
+			String sql = "SELECT Trip.trip_id, " + 
+					"  Trip.cover_photo_link, Trip.title, Trip.description,  Trip.main_place\n" + 
+					"FROM Trip\n" + 
+					"WHERE Trip.user_id = ?; ";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, Integer.parseInt(userId));
+			rs = ps.executeQuery();
+			while(rs.next()){
+				ArrayList<String> row = new ArrayList<String>();
+				row.add(rs.getString("Trip.Trip_ID"));
+				row.add(rs.getString("Trip.cover_photo_link"));
+				row.add(rs.getString("Trip.title"));
+				row.add(rs.getString("Trip.description"));
+				row.add(rs.getString("Trip.main_place"));
+				stat.add(row);
+			}
+		}catch(SQLException sqle){
+			System.out.println("SQLException in function \" getData\": ");
+			sqle.printStackTrace();
+		}finally{
+			close();
+		}
+		return stat;
+	}
+	
 	public static boolean authenticate(String email, String pwd) {
 		connect();
 		try {

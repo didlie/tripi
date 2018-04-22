@@ -30,9 +30,11 @@ function initMap() {
 			bounds.extend(newMarker.getPosition());
 			
 			// While we're at it, process the date time
-			var time = tripItem.dataset.time;
-			var formattedTime = moment(time, "YYYY-MM-DD HH:MM:SS").format("MMM DD, YYYY hh:MM a");
-			// fix this 
+//			var time = tripItem.dataset.time;
+//			console.log(time);
+//			var formattedTime = moment(time, "YYYY-MM-DD HH:MM:SS").format("MMM DD, YYYY hh:mm a");
+//			console.log(formattedTime);
+//			tripItems[i].querySelector(".time").innerHTML = formattedTime;
 		}
 		
 		map.fitBounds(bounds);
