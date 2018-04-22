@@ -43,7 +43,7 @@ public class ViewTrip extends HttpServlet {
 		}
 		
 		// If user owns trip, they can edit
-		if (request.getSession().getAttribute("user_id").equals(tripInfo.get(1))) {
+		if (request.getSession().getAttribute("user_id") != null && request.getSession().getAttribute("user_id").equals(tripInfo.get(1))) {
 			// User owns trip. OUT!
 			response.sendRedirect("./edit?id=" + tripId);
 			return;

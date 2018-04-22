@@ -64,7 +64,7 @@
             		  icon = "<i class='fas fa-calendar icon'></i> ";
             	  }
               %>
-              <div class="card trip-item" data-longitude="<%= i.getLongitude() %>" data-latitude="<%= i.getLatitude() %>" data-time="<%= i.getTime() %>">
+              <div class="card trip-item" data-longitude="<%= i.getLongitude() %>" data-latitude="<%= i.getLatitude() %>" data-time="<%= i.getTime() %>" data-type="<%= i.getType() %>">
               <div class="card-body item-<%= i.getType() %>">
                 <h5 class="card-title"><%= icon %><%= i.getTitle() %></h5>
                 <h6 class="card-subtitle address"><%= i.getAddress() %></h6>
