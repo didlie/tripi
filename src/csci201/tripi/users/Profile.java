@@ -45,27 +45,32 @@ public class Profile extends HttpServlet {
 		 ResultSet rs = null;
 		 try {
 		 Class.forName("com.mysql.jdbc.Driver");
-		 conn = DriverManager.getConnection("jdbc:mysql://localhost/tripi?user=root&password=root&useSSL=false");
+		 String password = "WangXueYuan123";
+		 conn = DriverManager.getConnection("jdbc:mysql://localhost/tripi?user=root&password="+ password+"&useSSL=false");
 		 st = conn.createStatement();
 		 
 		 rs = st.executeQuery("SELECT * FROM Trip t Where t.user_id=" + userId + ";");
-
+		 
+		 ArrayList<String> tripIds = new ArrayList<String>();
 		 ArrayList<String> photoLinks = new ArrayList<String>();
 		 ArrayList<String> descriptions = new ArrayList<String>();
 		 ArrayList<String> titles = new ArrayList<String>();
 		 ArrayList<String> mainPlaces = new ArrayList<String>();
 		 while (rs.next()) {
+			 String id = rs.getString("trip_id");
 			 String link = rs.getString("cover_photo_link");
 			 String desc = rs.getString("description");
 			 String title = rs.getString("title");
 			 String place = rs.getString("main_place");
 
+			 tripIds.add(id);
 			 photoLinks.add(link);
 			 descriptions.add(desc);
 			 titles.add(title);
 			 mainPlaces.add(place);
 		  }
 		 //trips
+		 request.setAttribute("ids", tripIds);
 		 request.setAttribute("photoLinks", photoLinks);
 		 request.setAttribute("descriptions", descriptions);
 		 request.setAttribute("titles", titles);
