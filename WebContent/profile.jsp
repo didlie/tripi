@@ -230,7 +230,7 @@
     <script>
         
       <%
-        ArrayList<String> idLinks = (ArrayList<String>)request.getAttribute("ids");
+        ArrayList<String> idLinks = (ArrayList<String>)request.getAttribute("tripIds");
         ArrayList<String> photoLinks = (ArrayList<String>)request.getAttribute("photoLinks");
         ArrayList<String> descriptions = (ArrayList<String>)request.getAttribute("descriptions");
         ArrayList<String> titles = (ArrayList<String>)request.getAttribute("titles");

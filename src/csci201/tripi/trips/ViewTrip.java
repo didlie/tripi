@@ -38,10 +38,17 @@ public class ViewTrip extends HttpServlet {
 		
 		// Trip wasn't found if tripInfo is null
 		if (tripInfo == null) {
-			response.sendRedirect("./home.jsp");
+			response.sendRedirect("./home.jsp"); 
 			return;
 		}
 		
+		// If user owns trip, they can edit
+		if (request.getSession().getAttribute("user_id") != null && request.getSession().getAttribute("user_id").equals(tripInfo.get(1))) {
+			// User owns trip. OUT!
+			response.sendRedirect("./edit?id=" + tripId);
+			return;
+		}
+				
 		request.setAttribute("title", tripInfo.get(4));
 		request.setAttribute("coverPhoto", tripInfo.get(2));
 		request.setAttribute("description", tripInfo.get(3));

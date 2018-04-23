@@ -14,20 +14,38 @@
 	</head>
 	
 	<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav id="navigation" class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
-        <a class="navbar-brand" href="./home.jsp">Tripi</a>
-        
-        <ul class="navbar-nav ml-auto">
-          <%
-          if (request.getSession().getAttribute("user_id") == null) {
-            %>
-               <li class="nav-item"><a class="nav-link" href="./login">Log In</a></li>
-              <li class="nav-item"><a class="nav-link" href="./signup">Sign Up</a></li>
-            <% } else {  %>
-              <li class="nav-item"><a class="nav-link" href="./profile">Hello <%= request.getSession().getAttribute("displayname") %></a></li>
-          <% } %>
-        </ul>
+          <!-- <a class="navbar-brand" href="./home.jsp">Tripi</a> -->
+          <a href = "home.jsp"><img class="nav-img" src="./img/logo-nav.png" alt="" width="auto" height="300" style="height: 45px !important;"></a>
+
+
+          <ul class="navbar-nav ml-auto">
+            <%
+                if (request.getSession().getAttribute("user_id") == null) {
+              %>
+              <li class="nav-item">
+                <a class="nav-link" href="./login">Log In</a>
+              </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./signup">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./login">Create Trip</a>
+                </li>
+              <% } else {  %>
+                  <li class="nav-item">
+                   <a class="nav-link" href="./profile">Hello <%= request.getSession().getAttribute("displayname") %></a>
+                  </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="./logout">Logout</a>
+                </li>
+
+                  
+            <% } %>
+
+          </ul>
       </div>
     </nav>
 
@@ -64,7 +82,7 @@
                   icon = "<i class='fas fa-calendar icon'></i> ";
                 }
               %>
-              <div class="card trip-item" data-longitude="<%= i.getLongitude() %>" data-latitude="<%= i.getLatitude() %>" data-time="<%= i.getTime() %>">
+              <div class="card trip-item" data-longitude="<%= i.getLongitude() %>" data-latitude="<%= i.getLatitude() %>" data-time="<%= i.getTime() %>" data-type="<%= i.getType() %>">
               <div class="card-body item-<%= i.getType() %>">
                 <h5 class="card-title"><%= icon %><%= i.getTitle() %></h5>
                 <h6 class="card-subtitle address"><%= i.getAddress() %></h6>
@@ -72,7 +90,7 @@
                 
                 <hr> 
                 
-                <h6 class="card-subtitle time"></h6>
+                <h6 class="card-subtitle time"><%= i.getFormattedTime() %></h6> 
                 
                 <% if (!i.getLink().trim().equals("")) { %>
                   <a href="<%= i.getLink() %>" class="card-link">See More</a>

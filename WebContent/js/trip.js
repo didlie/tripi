@@ -3,6 +3,8 @@ var map;
 var autocomplete;
       
 // Initialize the map (called when the Google Maps API loads)
+var infoWindow;
+
 function initMap() {
 	// Create the map, sets the default center to the middle of the world
 	map = new google.maps.Map(document.getElementById('map'), {
@@ -13,6 +15,8 @@ function initMap() {
 	// Get all the trip items on the page
 	var tripItems = document.getElementsByClassName('trip-item');
 	
+	infoWindow = new google.maps.InfoWindow();
+	
 	// If we have trip items, create markers and center map on markers
 	if (tripItems.length > 0) {
 		var bounds = new google.maps.LatLngBounds();
@@ -21,18 +25,22 @@ function initMap() {
 			var tripItem = tripItems[i];
 			var latitude = tripItem.dataset.latitude;
 			var longitude = tripItem.dataset.longitude;
+
+			let newInfoWindow = new google.maps.InfoWindow({
+				content: tripItem.innerHTML
+			});
 			
-			var newMarker = new google.maps.Marker({
+			let newMarker = new google.maps.Marker({
 				position: { lat: parseFloat(latitude), lng: parseFloat(longitude) },
+				icon: './img/' + tripItem.dataset.type + '_icon.png',
 				map: map
 			});
 			
-			bounds.extend(newMarker.getPosition());
+			newMarker.addListener('click', function() {
+				newInfoWindow.open(map, newMarker);
+			});
 			
-			// While we're at it, process the date time
-			var time = tripItem.dataset.time;
-			var formattedTime = moment(time, "YYYY-MM-DD HH:MM:SS").format("MMM DD, YYYY hh:MM a");
-			// fix this 
+			bounds.extend(newMarker.getPosition());
 		}
 		
 		map.fitBounds(bounds);

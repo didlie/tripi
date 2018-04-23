@@ -1,8 +1,12 @@
 package csci201.tripi.database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 import csci201.tripi.trips.Item;
 
@@ -10,7 +14,7 @@ public class JDBCDriver {
 	private static Connection conn = null;
 	private static ResultSet rs = null;
 	private static PreparedStatement ps = null;
-	private static String password = "WangXueYuan123";
+	private static String password = "root";
 	
 	public static void connect(){
 		try {
@@ -117,6 +121,35 @@ public class JDBCDriver {
 					"FROM Trip\n" + 
 					"WHERE Trip.share = TRUE; ";
 			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				ArrayList<String> row = new ArrayList<String>();
+				row.add(rs.getString("Trip.Trip_ID"));
+				row.add(rs.getString("Trip.cover_photo_link"));
+				row.add(rs.getString("Trip.title"));
+				row.add(rs.getString("Trip.description"));
+				row.add(rs.getString("Trip.main_place"));
+				stat.add(row);
+			}
+		}catch(SQLException sqle){
+			System.out.println("SQLException in function \" getData\": ");
+			sqle.printStackTrace();
+		}finally{
+			close();
+		}
+		return stat;
+	}
+	
+	public static ArrayList<ArrayList<String>> getTripsByUser(String userId){
+		ArrayList<ArrayList<String>>  stat = new ArrayList<ArrayList<String>>();
+		connect();
+		try {
+			String sql = "SELECT Trip.trip_id, " + 
+					"  Trip.cover_photo_link, Trip.title, Trip.description,  Trip.main_place\n" + 
+					"FROM Trip\n" + 
+					"WHERE Trip.user_id = ?; ";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, Integer.parseInt(userId));
 			rs = ps.executeQuery();
 			while(rs.next()){
 				ArrayList<String> row = new ArrayList<String>();
@@ -328,5 +361,39 @@ public class JDBCDriver {
 		}
 		
 		return null;
+	}
+	
+	public static String addItem(String tripId, String title, String description, String latitude, String longitude, String address,
+			String time, String type, String link) {
+		connect();
+		
+		String responseMessage = null;
+		
+		try {
+			ps = conn.prepareStatement("INSERT INTO "
+					+ "Item (trip_id, title, description, latitude, longitude, address, time, type, link) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+			
+			ps.setString(1, tripId);
+			ps.setString(2, title);
+			ps.setString(3, description);
+			ps.setString(4, latitude);
+			ps.setString(5, longitude);
+			ps.setString(6, address);
+			ps.setString(7, time);
+			ps.setString(8, type);
+			ps.setString(9, link);
+			
+			ps.execute();
+			
+			responseMessage = "SUCCESS";
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+			responseMessage = "Error writing to database";
+		} finally {
+			close();
+		}
+		
+		return responseMessage;
 	}
 }
