@@ -135,7 +135,7 @@
                             + urls + "</a>\n<h6 style=\"margin-top: 20px;\">Start Date/Time(local):</h6>\n<h6>\n" 
                             + startDate + " at " + startTime + "</h6>\n</div>\n</div>"
                             + "<div class=\"card-footer bg-transparent border-success\">" + "\n"
-                            + "<button onclick=\"addEventItem(" + i + ")\" class=\"btn btn-primary\" type=\"button\" id=\"add" + i + "\" >Add to your Itinerary</button"
+                            + "<button onclick=\"addEventItem(" + i + ")\" class=\"btn btn-primary\" type=\"button\" id=\"add" + i + "\" >Add to your Trip</button"
                             + "\n</div>\n</div>";
                         
                                     
@@ -248,7 +248,7 @@
                             + "<br>" + obj[i].location.formattedAddress[1] + "\n"
                             + "\n</text>\n</div>\n</div>"
                             + "<div class=\"card-footer bg-transparent border-success\">" + "\n<form method=\"POST\" action=\"#\">"
-                            + "<button id=\"add" + i + "\" onclick=\"addAccItem(" + i + ");\" class=\"btn btn-primary\" type=\"button\">Add to your Itinerary</button>"
+                            + "<button id=\"add" + i + "\" onclick=\"addAccItem(" + i + ");\" class=\"btn btn-primary\" type=\"button\">Add to your Trip</button>"
                             + "<button style=\"margin-left: 10px;\" class=\"btn btn-secondary\" type=\"button\" onclick=\"details(" + i + ")\">Map</button>"
                             + "\n</form>\n</div>\n</div>";
                         

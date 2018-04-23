@@ -35,12 +35,6 @@
             overflow: auto;
             margin-left: 8px;
         }
-        input[type=text] {
-            background-color: #f4e8c8;
-        }
-        #choice {
-            background-color: #f4e8c8;
-        }
         #hideButton{
         	display: none;
         }
@@ -54,10 +48,10 @@
       <div class="search-field" style="margin-left: 40px;">
           <form onsubmit="return search();" action="#">
               <div class="form-row">
-                <div class="col-4">
-                  <input id="q" type="text" class="form-control" placeholder="Search Events/Accomodations">
+                <div class="col-3">
+                  <input id="q" type="text" class="form-control" placeholder="Search">
                 </div>
-                <div class="col-2">
+                <div class="col-3">
                   <input id="location" type="text" class="form-control" placeholder="Location">
                 </div>
                 <div class="col-3">
@@ -103,8 +97,6 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         
         <script src="./js/searchEvent.js"></script>
-        <script async defer
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmhYiSK8JgigmskxIU2uC3xw8Zk-TNbIw"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEOE3jhPysVbJtjukU7Tc3Lkc-Q4fdSEk&libraries=places&callback=initAutocomplete"
         async defer></script>
         <!--for autocomplete date-->
