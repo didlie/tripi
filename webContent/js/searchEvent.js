@@ -462,6 +462,15 @@
                 form.setAttribute("name", "adding");
                 form.setAttribute("id", "adding");
                 form.setAttribute("action", "./edit/additem?id=" + id);
+                
+                
+            var type = "";
+            if(currentObj[num].categories.name === "Hotel"){
+            		type = "hotel";
+            }
+            else{
+            		type = "place";
+            }
                 	
                 
                 params = {
